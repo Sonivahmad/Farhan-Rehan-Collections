@@ -131,6 +131,12 @@ function setupEventListeners() {
     console.log("✅ Product image FOUND - attaching preview");
     productImage.addEventListener("change", handleImagePreview);
   }
+
+  const logoutBtn = document.getElementById("logout-btn");
+  if (logoutBtn) {
+    console.log("✅ Logout listener attached");
+    logoutBtn.addEventListener("click", logout);
+  }
 }
 
 // ==========================
