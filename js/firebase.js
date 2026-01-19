@@ -9,7 +9,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDRgvpDZVmqjfTA9RDU58XOtOnMj3w5dHA",
   authDomain: "farhan-rehan-collections.firebaseapp.com",
   projectId: "farhan-rehan-collections",
-  storageBucket: "farhan-rehan-collections.appspot.com", // ✅ FIXED
+  storageBucket: "farhan-rehan-collections.firebasestorage.app", // ✅ FIXED
   messagingSenderId: "865929030777",
   appId: "1:865929030777:web:462df96267452ed579b8a8"
 };
