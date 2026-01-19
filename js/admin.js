@@ -7,49 +7,36 @@ import { auth, db, storage } from "./firebase.js";
 console.log("firebase.js imported successfully");
 console.log("auth:", auth ? "defined" : "undefined", auth);
 
-let currentEditingProductId = null;
+// Replace the existing import blocks for auth, firestore, storage with these
 
-// ==========================
-// INIT
-// ==========================
-document.addEventListener("DOMContentLoaded", () => {
-  setupEventListeners();
-  checkAuthState();
-});
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 
-// ==========================
-// AUTH
-// ==========================
-function checkAuthState() {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      showDashboard(user);
-    } else {
-      showLogin();
-    }
-  });
-}
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  orderBy,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
-async function handleLogin(e) {
-  e.preventDefault();
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-storage.js";
 
-  const email = document.getElementById("admin-email").value;
-  const password = document.getElementById("admin-password").value;
-  const alertDiv = document.getElementById("login-alert");
-
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    showAlert(alertDiv, "Login successful!", "success");
-  } catch (err) {
-    showAlert(alertDiv, err.message, "error");
-  }
-}
-
-async function logout() {
-  await signOut(auth);
-  showLogin();
-  resetForm();
-}
+console.log("Auth functions imported?");
+console.log("onAuthStateChanged:", typeof onAuthStateChanged === 'function' ? 'YES' : 'NO');
+console.log("signInWithEmailAndPassword:", !!signInWithEmailAndPassword);
 
 // ==========================
 // UI
