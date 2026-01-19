@@ -4,10 +4,8 @@
 
 import { auth, db, storage } from "./firebase.js";
 
-console.log("firebase.js imported successfully");
-console.log("auth:", auth ? "defined" : "undefined", auth);
-
-// Replace the existing import blocks for auth, firestore, storage with these
+console.log("1. firebase.js imported successfully");
+console.log("2. auth:", auth ? "defined" : "undefined", auth);
 
 import {
   onAuthStateChanged,
@@ -34,34 +32,29 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-storage.js";
 
-console.log("Auth functions imported?");
-console.log("onAuthStateChanged:", typeof onAuthStateChanged === 'function' ? 'YES' : 'NO');
-console.log("signInWithEmailAndPassword:", !!signInWithEmailAndPassword);
+console.log("3. Auth functions imported OK");
+
+let currentEditingProductId = null;
 
 // ==========================
-// UI
-// ==========================
-// ==========================
-// INIT
+// INIT - Wait for DOM ready
 // ==========================
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded fired - page ready");
+  console.log("4. DOMContentLoaded - page fully loaded, setting up...");
   setupEventListeners();
   checkAuthState();
 });
 
 // ==========================
-// AUTH
+// AUTH FUNCTIONS (NOW DEFINED)
 // ==========================
 function checkAuthState() {
-  console.log("checkAuthState() called");
+  console.log("5. checkAuthState started");
   onAuthStateChanged(auth, (user) => {
-    console.log("onAuthStateChanged triggered → user:", user ? user.email : "null / not logged in");
+    console.log("6. Auth state changed → user:", user ? user.email : "logged out");
     if (user) {
-      console.log("User logged in → showing dashboard");
       showDashboard(user);
     } else {
-      console.log("No user → showing login screen");
       showLogin();
     }
   });
@@ -69,49 +62,42 @@ function checkAuthState() {
 
 async function handleLogin(e) {
   e.preventDefault();
-  console.log("handleLogin() STARTED - form submitted");
+  console.log("7. LOGIN FORM SUBMITTED!");
 
-  const email = document.getElementById("admin-email")?.value?.trim() || "";
-  const password = document.getElementById("admin-password")?.value || "";
+  const email = document.getElementById("admin-email").value.trim();
+  const password = document.getElementById("admin-password").value;
   const alertDiv = document.getElementById("login-alert");
 
-  console.log("Login attempt → email:", email, " | password length:", password.length);
-
-  if (!email || !password) {
-    console.warn("Missing email or password");
-    showAlert(alertDiv, "Please enter email and password", "error");
-    return;
-  }
+  console.log("8. Login attempt:", email);
 
   try {
-    console.log("Calling signInWithEmailAndPassword...");
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log("LOGIN SUCCESS →", userCredential.user.email, "UID:", userCredential.user.uid);
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    console.log("9. LOGIN SUCCESS:", result.user.email);
     showAlert(alertDiv, "Login successful!", "success");
-    // Force UI update in case listener is slow
-    showDashboard(userCredential.user);
   } catch (err) {
-    console.error("LOGIN ERROR:", err.code || "unknown", err.message);
-    showAlert(alertDiv, err.message || "Login failed – check console", "error");
+    console.error("10. LOGIN ERROR:", err.message);
+    showAlert(alertDiv, err.message, "error");
   }
-
-  console.log("handleLogin() FINISHED");
 }
 
 async function logout() {
-  console.log("Logout requested");
+  console.log("Logout clicked");
   await signOut(auth);
-  console.log("Signed out successfully");
   showLogin();
   resetForm();
 }
 
+// ==========================
+// UI FUNCTIONS
+// ==========================
 function showLogin() {
+  console.log("Showing login screen");
   document.getElementById("login-screen").style.display = "flex";
   document.getElementById("admin-dashboard").style.display = "none";
 }
 
 function showDashboard(user) {
+  console.log("11. Showing dashboard for:", user.email);
   document.getElementById("login-screen").style.display = "none";
   document.getElementById("admin-dashboard").style.display = "block";
   document.getElementById("admin-email-display").textContent = user.email;
@@ -119,78 +105,81 @@ function showDashboard(user) {
 }
 
 function setupEventListeners() {
-  console.log("setupEventListeners() called");
+  console.log("12. setupEventListeners called");
 
+  // Login form
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
-    console.log("Login form FOUND - attaching submit listener");
+    console.log("✅ Login form FOUND - attaching listener");
     loginForm.addEventListener("submit", handleLogin);
   } else {
-    console.error("Login form NOT FOUND - check ID or script placement in HTML");
+    console.error("❌ Login form NOT FOUND - HTML ID mismatch?");
   }
 
+  // Product form  
   const productForm = document.getElementById("product-form");
   if (productForm) {
-    console.log("Product form FOUND - attaching submit listener");
+    console.log("✅ Product form FOUND - attaching listener");
     productForm.addEventListener("submit", handleProductSubmit);
+  } else {
+    console.error("❌ Product form NOT FOUND");
   }
 
+  // Image preview
   const productImage = document.getElementById("product-image");
   if (productImage) {
-    console.log("Product image input FOUND - attaching change listener");
+    console.log("✅ Product image FOUND - attaching preview");
     productImage.addEventListener("change", handleImagePreview);
   }
 }
 
 // ==========================
-// PRODUCTS
+// PRODUCT FUNCTIONS (with logs)
 // ==========================
 async function handleProductSubmit(e) {
   e.preventDefault();
-  const alertDiv = document.getElementById("form-alert");
+  console.log("13. PRODUCT FORM SUBMITTED!");
 
+  const alertDiv = document.getElementById("form-alert");
   try {
     const data = getProductFormData();
+    console.log("14. Product data:", data);
 
+    // Image upload
     if (document.getElementById("product-image").files[0]) {
-      data.imageUrl = await uploadProductImage(
-        document.getElementById("product-image").files[0]
-      );
+      console.log("15. Uploading image...");
+      data.imageUrl = await uploadProductImage(document.getElementById("product-image").files[0]);
     }
 
+    // Save to Firestore
     if (currentEditingProductId) {
+      console.log("16. Updating product:", currentEditingProductId);
       await updateDoc(doc(db, "products", currentEditingProductId), data);
-      showAlert(alertDiv, "Product updated successfully!", "success");
     } else {
-      await addDoc(collection(db, "products"), {
-        ...data,
-        createdAt: serverTimestamp()
-      });
-      showAlert(alertDiv, "Product added successfully!", "success");
+      console.log("17. Adding new product");
+      await addDoc(collection(db, "products"), { ...data, createdAt: serverTimestamp() });
     }
 
+    showAlert(alertDiv, "Product saved successfully!", "success");
     resetForm();
     loadProducts();
   } catch (err) {
-    console.error(err);
+    console.error("18. PRODUCT SAVE ERROR:", err);
     showAlert(alertDiv, err.message, "error");
   }
 }
 
+// ... rest of your functions unchanged (getProductFormData, uploadProductImage, etc.)
 function getProductFormData() {
   return {
     name: document.getElementById("product-name").value.trim(),
     category: document.getElementById("product-category").value,
-    price: parseFloat(document.getElementById("product-price").value),
-    colors: document.getElementById("product-colors")
-      .value.split(",").map(c => c.trim()).filter(Boolean),
+    price: parseFloat(document.getElementById("product-price").value) || 0,
+    colors: document.getElementById("product-colors").value.split(",").map(c => c.trim()).filter(Boolean),
     active: document.getElementById("product-active").checked
   };
 }
 
-// ==========================
-// STORAGE
-// ==========================
 async function uploadProductImage(file) {
   const imageRef = ref(storage, `products/${Date.now()}_${file.name}`);
   await uploadBytes(imageRef, file);
@@ -200,78 +189,61 @@ async function uploadProductImage(file) {
 function handleImagePreview(e) {
   const file = e.target.files[0];
   const container = document.getElementById("image-preview-container");
-
-  if (!file) return (container.innerHTML = "");
-
+  if (!file) return container.innerHTML = "";
+  
   const reader = new FileReader();
-  reader.onload = ev => {
-    container.innerHTML = `<img src="${ev.target.result}" class="image-preview">`;
-  };
+  reader.onload = ev => container.innerHTML = `<img src="${ev.target.result}" class="image-preview">`;
   reader.readAsDataURL(file);
 }
 
-// ==========================
-// LOAD PRODUCTS
-// ==========================
 async function loadProducts() {
+  console.log("19. Loading products...");
   const tbody = document.getElementById("products-tbody");
   tbody.innerHTML = "";
-
   const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
-
-  snapshot.forEach(docSnap => {
-    const product = { id: docSnap.id, ...docSnap.data() };
-    displayProductRow(product, tbody);
-  });
+  snapshot.forEach(docSnap => displayProductRow({ id: docSnap.id, ...docSnap.data() }, tbody));
 }
 
 function displayProductRow(product, tbody) {
   const row = document.createElement("tr");
   row.innerHTML = `
-    <td><img src="${product.imageUrl || "https://via.placeholder.com/80"}"></td>
-    <td>${product.name}</td>
-    <td>${product.category}</td>
-    <td>₹${product.price}</td>
-    <td>${product.colors.join(", ")}</td>
-    <td>${product.active ? "Active" : "Inactive"}</td>
-    <td>
-      <button onclick="editProduct('${product.id}')">Edit</button>
-      <button onclick="deleteProduct('${product.id}')">Delete</button>
-    </td>
+    <td><img src="${product.imageUrl || "https://via.placeholder.com/80"}" style="width:60px;height:60px;object-fit:cover"></td>
+    <td>${product.name}</td><td>${product.category}</td><td>₹${product.price}</td>
+    <td>${(product.colors||[]).join(", ")}</td><td>${product.active?"Active":"Inactive"}</td>
+    <td><button onclick="editProduct('${product.id}')">Edit</button> <button onclick="deleteProduct('${product.id}')">Delete</button></td>
   `;
   tbody.appendChild(row);
 }
 
-// ==========================
-// EDIT / DELETE
-// ==========================
-window.editProduct = async function (id) {
+window.editProduct = async function(id) {
+  console.log("Editing product:", id);
   const snap = await getDoc(doc(db, "products", id));
-  if (!snap.exists()) return;
-
-  const p = snap.data();
-  currentEditingProductId = id;
-
-  document.getElementById("product-name").value = p.name;
-  document.getElementById("product-category").value = p.category;
-  document.getElementById("product-price").value = p.price;
-  document.getElementById("product-colors").value = p.colors.join(", ");
-  document.getElementById("product-active").checked = p.active;
+  if (snap.exists()) {
+    const p = snap.data();
+    currentEditingProductId = id;
+    document.getElementById("product-name").value = p.name || "";
+    document.getElementById("product-category").value = p.category || "";
+    document.getElementById("product-price").value = p.price || 0;
+    document.getElementById("product-colors").value = (p.colors||[]).join(", ");
+    document.getElementById("product-active").checked = p.active || false;
+  }
 };
 
-window.deleteProduct = async function (id) {
-  if (!confirm("Delete product?")) return;
-  await deleteDoc(doc(db, "products", id));
-  loadProducts();
+window.deleteProduct = async function(id) {
+  if (confirm("Delete?")) {
+    await deleteDoc(doc(db, "products", id));
+    loadProducts();
+  }
 };
 
-// ==========================
 function resetForm() {
   document.getElementById("product-form").reset();
   currentEditingProductId = null;
+  document.getElementById("image-preview-container").innerHTML = "";
 }
 
 function showAlert(container, msg, type) {
   container.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+  setTimeout(() => container.innerHTML = "", 5000);
 }
