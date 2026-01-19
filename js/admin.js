@@ -2,35 +2,10 @@
 // ADMIN PANEL - PRODUCT MANAGEMENT (MODULAR)
 // ============================================
 
-import { auth, db, storage } from "/Users/Suhel/Desktop/Farhan Rehan Collections/js/firebase.js";  // ← absolute from root
-// or full URL if paranoid: "https://farhan-rehan-collections.vercel.app/js/firebase.js"
+import { auth, db, storage } from "./firebase.js";
 
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut
-} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
-
-import {
-  collection,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  orderBy,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
-
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-storage.js";
-
-console.log("Imported auth:", auth);  // should log [object Object] or similar
+console.log("firebase.js imported successfully");
+console.log("auth:", auth ? "defined" : "undefined", auth);
 
 let currentEditingProductId = null;
 
