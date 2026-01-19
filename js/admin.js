@@ -41,6 +41,71 @@ console.log("signInWithEmailAndPassword:", !!signInWithEmailAndPassword);
 // ==========================
 // UI
 // ==========================
+// ==========================
+// INIT
+// ==========================
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded fired - page ready");
+  setupEventListeners();
+  checkAuthState();
+});
+
+// ==========================
+// AUTH
+// ==========================
+function checkAuthState() {
+  console.log("checkAuthState() called");
+  onAuthStateChanged(auth, (user) => {
+    console.log("onAuthStateChanged triggered → user:", user ? user.email : "null / not logged in");
+    if (user) {
+      console.log("User logged in → showing dashboard");
+      showDashboard(user);
+    } else {
+      console.log("No user → showing login screen");
+      showLogin();
+    }
+  });
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  console.log("handleLogin() STARTED - form submitted");
+
+  const email = document.getElementById("admin-email")?.value?.trim() || "";
+  const password = document.getElementById("admin-password")?.value || "";
+  const alertDiv = document.getElementById("login-alert");
+
+  console.log("Login attempt → email:", email, " | password length:", password.length);
+
+  if (!email || !password) {
+    console.warn("Missing email or password");
+    showAlert(alertDiv, "Please enter email and password", "error");
+    return;
+  }
+
+  try {
+    console.log("Calling signInWithEmailAndPassword...");
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("LOGIN SUCCESS →", userCredential.user.email, "UID:", userCredential.user.uid);
+    showAlert(alertDiv, "Login successful!", "success");
+    // Force UI update in case listener is slow
+    showDashboard(userCredential.user);
+  } catch (err) {
+    console.error("LOGIN ERROR:", err.code || "unknown", err.message);
+    showAlert(alertDiv, err.message || "Login failed – check console", "error");
+  }
+
+  console.log("handleLogin() FINISHED");
+}
+
+async function logout() {
+  console.log("Logout requested");
+  await signOut(auth);
+  console.log("Signed out successfully");
+  showLogin();
+  resetForm();
+}
+
 function showLogin() {
   document.getElementById("login-screen").style.display = "flex";
   document.getElementById("admin-dashboard").style.display = "none";
@@ -54,9 +119,27 @@ function showDashboard(user) {
 }
 
 function setupEventListeners() {
-  document.getElementById("login-form").addEventListener("submit", handleLogin);
-  document.getElementById("product-form").addEventListener("submit", handleProductSubmit);
-  document.getElementById("product-image").addEventListener("change", handleImagePreview);
+  console.log("setupEventListeners() called");
+
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    console.log("Login form FOUND - attaching submit listener");
+    loginForm.addEventListener("submit", handleLogin);
+  } else {
+    console.error("Login form NOT FOUND - check ID or script placement in HTML");
+  }
+
+  const productForm = document.getElementById("product-form");
+  if (productForm) {
+    console.log("Product form FOUND - attaching submit listener");
+    productForm.addEventListener("submit", handleProductSubmit);
+  }
+
+  const productImage = document.getElementById("product-image");
+  if (productImage) {
+    console.log("Product image input FOUND - attaching change listener");
+    productImage.addEventListener("change", handleImagePreview);
+  }
 }
 
 // ==========================
