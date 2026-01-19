@@ -1,9 +1,10 @@
-// js/firebase.js
+// firebase.js - update imports to match
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-storage.js";
 
+// ... rest unchanged
 const firebaseConfig = {
   apiKey: "AIzaSyDRgvpDZVmqjfTA9RDU58XOtOnMj3w5dHA",
   authDomain: "farhan-rehan-collections.firebaseapp.com",

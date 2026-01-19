@@ -7,19 +7,12 @@
     <meta http-equiv="Content-Security-Policy" content="
   default-src 'self';
   script-src 'self' 'unsafe-eval' https://www.gstatic.com;
-  connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com;
-  img-src 'self' data: https://*.googleusercontent.com https://firebasestorage.googleapis.com;
-  style-src 'self' 'unsafe-inline';
-">
-<meta http-equiv="Content-Security-Policy" content="
-  default-src 'self';
-  script-src 'self' 'unsafe-eval' https://www.gstatic.com;
-  connect-src 'self' 
-    https://*.firebaseio.com 
-    https://*.googleapis.com 
-    https://identitytoolkit.googleapis.com 
-    https://securetoken.googleapis.com 
-    https://www.gstatic.com;   
+  connect-src 'self'
+    https://*.firebaseio.com
+    https://*.googleapis.com
+    https://identitytoolkit.googleapis.com
+    https://securetoken.googleapis.com
+    https://www.gstatic.com;                 /* ← this line allows .map files */
   img-src 'self' data: https://*.googleusercontent.com https://firebasestorage.googleapis.com;
   style-src 'self' 'unsafe-inline';
 ">
