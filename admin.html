@@ -6,7 +6,7 @@
     <title>Admin Panel - Farhan Rehan Collections</title>
     <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' 'unsafe-eval' https://www.gstatic.com;
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com;
     connect-src 'self'
       https://*.firebaseio.com
       https://*.googleapis.com
@@ -45,7 +45,7 @@
             <h1>Admin Panel</h1>
             <div class="admin-actions">
                 <span id="admin-email-display"></span>
-                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+                <button class="btn btn-secondary" id="logout-btn">Logout</button>
             </div>
         </div>
 

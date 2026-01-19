@@ -213,14 +213,35 @@ async function loadProducts() {
 
 function displayProductRow(product, tbody) {
   const row = document.createElement("tr");
-  row.innerHTML = `
-    <td><img src="${product.imageUrl || "https://via.placeholder.com/80"}" style="width:60px;height:60px;object-fit:cover"></td>
-    <td>${product.name}</td><td>${product.category}</td><td>₹${product.price}</td>
-    <td>${(product.colors||[]).join(", ")}</td><td>${product.active?"Active":"Inactive"}</td>
-    <td><button onclick="editProduct('${product.id}')">Edit</button> <button onclick="deleteProduct('${product.id}')">Delete</button></td>
+    // 1. Set the text/images
+    row.innerHTML = `
+    <td><img src="${product.imageUrl || ''}" style="width:60px;height:60px;object-fit:cover"></td>
+    <td>${product.name}</td>
+    <td>${product.category}</td>
+    <td>₹${product.price}</td>
+    <td>${(product.colors||[]).join(", ")}</td>
+    <td>${product.active ? "Active" : "Inactive"}</td>
+    <td class="actions"></td> 
   `;
+
+  // 2. Create buttons manually (This avoids CSP issues)
+  const editBtn = document.createElement("button");
+  editBtn.textContent = "Edit";
+  editBtn.className = "btn-edit";
+  editBtn.addEventListener("click", () => editProduct(product.id));
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.className = "btn-delete";
+  deleteBtn.addEventListener("click", () => deleteProduct(product.id));
+
+  // 3. Add them to the last cell
+  row.querySelector(".actions").appendChild(editBtn);
+  row.querySelector(".actions").appendChild(deleteBtn);
+
   tbody.appendChild(row);
 }
+
 
 window.editProduct = async function(id) {
   console.log("Editing product:", id);
