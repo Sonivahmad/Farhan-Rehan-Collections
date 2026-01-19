@@ -1,6 +1,7 @@
 // ============================================
 // CUSTOMER WEBSITE - PRODUCT DISPLAY & WHATSAPP
 // ============================================
+import { db } from "./firebase.js";
 
 // WhatsApp number (replace with actual number)
 const WHATSAPP_NUMBER = '91XXXXXXXXXX';
