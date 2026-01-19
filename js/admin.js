@@ -1,18 +1,52 @@
 // ============================================
-// ADMIN PANEL - PRODUCT MANAGEMENT
+// ADMIN PANEL - PRODUCT MANAGEMENT (MODULAR)
 // ============================================
+
+import { auth, db, storage } from "/Users/Suhel/Desktop/Farhan Rehan Collections/js/firebase.js";  // ← absolute from root
+// or full URL if paranoid: "https://farhan-rehan-collections.vercel.app/js/firebase.js"
+
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  orderBy,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-storage.js";
+
+console.log("Imported auth:", auth);  // should log [object Object] or similar
 
 let currentEditingProductId = null;
 
-// Initialize admin panel
-document.addEventListener('DOMContentLoaded', () => {
-  checkAuthState();
+// ==========================
+// INIT
+// ==========================
+document.addEventListener("DOMContentLoaded", () => {
   setupEventListeners();
+  checkAuthState();
 });
 
-// Check authentication state
+// ==========================
+// AUTH
+// ==========================
 function checkAuthState() {
-  auth.onAuthStateChanged((user) => {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
       showDashboard(user);
     } else {
@@ -21,283 +55,178 @@ function checkAuthState() {
   });
 }
 
-// Show login screen
-function showLogin() {
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('admin-dashboard').style.display = 'none';
+async function handleLogin(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("admin-email").value;
+  const password = document.getElementById("admin-password").value;
+  const alertDiv = document.getElementById("login-alert");
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    showAlert(alertDiv, "Login successful!", "success");
+  } catch (err) {
+    showAlert(alertDiv, err.message, "error");
+  }
 }
 
-// Show dashboard
+async function logout() {
+  await signOut(auth);
+  showLogin();
+  resetForm();
+}
+
+// ==========================
+// UI
+// ==========================
+function showLogin() {
+  document.getElementById("login-screen").style.display = "flex";
+  document.getElementById("admin-dashboard").style.display = "none";
+}
+
 function showDashboard(user) {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('admin-dashboard').style.display = 'block';
-  document.getElementById('admin-email-display').textContent = user.email;
+  document.getElementById("login-screen").style.display = "none";
+  document.getElementById("admin-dashboard").style.display = "block";
+  document.getElementById("admin-email-display").textContent = user.email;
   loadProducts();
 }
 
-// Setup event listeners
 function setupEventListeners() {
-  // Login form
-  document.getElementById('login-form').addEventListener('submit', handleLogin);
-  
-  // Product form
-  document.getElementById('product-form').addEventListener('submit', handleProductSubmit);
-  
-  // Image preview
-  document.getElementById('product-image').addEventListener('change', handleImagePreview);
+  document.getElementById("login-form").addEventListener("submit", handleLogin);
+  document.getElementById("product-form").addEventListener("submit", handleProductSubmit);
+  document.getElementById("product-image").addEventListener("change", handleImagePreview);
 }
 
-// Handle login
-async function handleLogin(e) {
-  e.preventDefault();
-  const email = document.getElementById('admin-email').value;
-  const password = document.getElementById('admin-password').value;
-  const alertDiv = document.getElementById('login-alert');
-  
-  try {
-    await auth.signInWithEmailAndPassword(email, password);
-    showAlert(alertDiv, 'Login successful!', 'success');
-  } catch (error) {
-    showAlert(alertDiv, error.message, 'error');
-  }
-}
-
-// Handle logout
-function logout() {
-  auth.signOut().then(() => {
-    showLogin();
-    resetForm();
-  });
-}
-
-// Handle product form submit
+// ==========================
+// PRODUCTS
+// ==========================
 async function handleProductSubmit(e) {
   e.preventDefault();
-  const alertDiv = document.getElementById('form-alert');
-  
+  const alertDiv = document.getElementById("form-alert");
+
   try {
-    const productData = getProductFormData();
-    
-    // Upload image if new file selected
-    if (document.getElementById('product-image').files[0]) {
-      productData.imageUrl = await uploadProductImage(document.getElementById('product-image').files[0]);
+    const data = getProductFormData();
+
+    if (document.getElementById("product-image").files[0]) {
+      data.imageUrl = await uploadProductImage(
+        document.getElementById("product-image").files[0]
+      );
     }
-    
+
     if (currentEditingProductId) {
-      // Update existing product
-      await db.collection('products').doc(currentEditingProductId).update(productData);
-      showAlert(alertDiv, 'Product updated successfully!', 'success');
+      await updateDoc(doc(db, "products", currentEditingProductId), data);
+      showAlert(alertDiv, "Product updated successfully!", "success");
     } else {
-      // Add new product
-      productData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      await db.collection('products').add(productData);
-      showAlert(alertDiv, 'Product added successfully!', 'success');
+      await addDoc(collection(db, "products"), {
+        ...data,
+        createdAt: serverTimestamp()
+      });
+      showAlert(alertDiv, "Product added successfully!", "success");
     }
-    
+
     resetForm();
     loadProducts();
-    
-    // Clear alert after 3 seconds
-    setTimeout(() => {
-      alertDiv.innerHTML = '';
-    }, 3000);
-    
-  } catch (error) {
-    console.error('Error saving product:', error);
-    showAlert(alertDiv, 'Error: ' + error.message, 'error');
+  } catch (err) {
+    console.error(err);
+    showAlert(alertDiv, err.message, "error");
   }
 }
 
-// Get product form data
 function getProductFormData() {
-  const colors = document.getElementById('product-colors').value
-    .split(',')
-    .map(c => c.trim())
-    .filter(c => c);
-  
   return {
-    name: document.getElementById('product-name').value.trim(),
-    category: document.getElementById('product-category').value,
-    price: parseFloat(document.getElementById('product-price').value),
-    colors: colors,
-    active: document.getElementById('product-active').checked
+    name: document.getElementById("product-name").value.trim(),
+    category: document.getElementById("product-category").value,
+    price: parseFloat(document.getElementById("product-price").value),
+    colors: document.getElementById("product-colors")
+      .value.split(",").map(c => c.trim()).filter(Boolean),
+    active: document.getElementById("product-active").checked
   };
 }
 
-// Upload product image
+// ==========================
+// STORAGE
+// ==========================
 async function uploadProductImage(file) {
-  const storageRef = storage.ref();
-  const imageRef = storageRef.child(`products/${Date.now()}_${file.name}`);
-  
-  try {
-    const snapshot = await imageRef.put(file);
-    const downloadURL = await snapshot.ref.getDownloadURL();
-    return downloadURL;
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    throw new Error('Failed to upload image');
-  }
+  const imageRef = ref(storage, `products/${Date.now()}_${file.name}`);
+  await uploadBytes(imageRef, file);
+  return await getDownloadURL(imageRef);
 }
 
-// Handle image preview
 function handleImagePreview(e) {
   const file = e.target.files[0];
-  const previewContainer = document.getElementById('image-preview-container');
-  
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      previewContainer.innerHTML = `<img src="${event.target.result}" alt="Preview" class="image-preview">`;
-    };
-    reader.readAsDataURL(file);
-  } else {
-    previewContainer.innerHTML = '';
-  }
+  const container = document.getElementById("image-preview-container");
+
+  if (!file) return (container.innerHTML = "");
+
+  const reader = new FileReader();
+  reader.onload = ev => {
+    container.innerHTML = `<img src="${ev.target.result}" class="image-preview">`;
+  };
+  reader.readAsDataURL(file);
 }
 
-// Load products
+// ==========================
+// LOAD PRODUCTS
+// ==========================
 async function loadProducts() {
-  const loadingEl = document.getElementById('products-loading');
-  const emptyEl = document.getElementById('products-empty');
-  const tableEl = document.getElementById('products-table');
-  const tbody = document.getElementById('products-tbody');
-  
-  loadingEl.style.display = 'block';
-  emptyEl.style.display = 'none';
-  tableEl.style.display = 'none';
-  tbody.innerHTML = '';
-  
-  try {
-    const snapshot = await db.collection('products').orderBy('createdAt', 'desc').get();
-    
-    loadingEl.style.display = 'none';
-    
-    if (snapshot.empty) {
-      emptyEl.style.display = 'block';
-      return;
-    }
-    
-    tableEl.style.display = 'table';
-    
-    snapshot.forEach(doc => {
-      const product = { id: doc.id, ...doc.data() };
-      displayProductRow(product, tbody);
-    });
-    
-  } catch (error) {
-    console.error('Error loading products:', error);
-    loadingEl.style.display = 'none';
-    showAlert(emptyEl, 'Error loading products: ' + error.message, 'error');
-    emptyEl.style.display = 'block';
-  }
+  const tbody = document.getElementById("products-tbody");
+  tbody.innerHTML = "";
+
+  const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+
+  snapshot.forEach(docSnap => {
+    const product = { id: docSnap.id, ...docSnap.data() };
+    displayProductRow(product, tbody);
+  });
 }
 
-// Display product row in table
 function displayProductRow(product, tbody) {
-  const row = document.createElement('tr');
-  
-  const colorsText = Array.isArray(product.colors) 
-    ? product.colors.join(', ') 
-    : product.colors || 'N/A';
-  
+  const row = document.createElement("tr");
   row.innerHTML = `
-    <td>
-      <img src="${product.imageUrl || 'https://via.placeholder.com/80x80?text=No+Image'}" 
-           alt="${product.name}"
-           onerror="this.src='https://via.placeholder.com/80x80?text=No+Image'">
-    </td>
+    <td><img src="${product.imageUrl || "https://via.placeholder.com/80"}"></td>
     <td>${product.name}</td>
-    <td>${product.category || 'N/A'}</td>
-    <td>₹${product.price || 'N/A'}</td>
-    <td>${colorsText}</td>
+    <td>${product.category}</td>
+    <td>₹${product.price}</td>
+    <td>${product.colors.join(", ")}</td>
+    <td>${product.active ? "Active" : "Inactive"}</td>
     <td>
-      <span class="product-status ${product.active ? 'active' : 'inactive'}">
-        ${product.active ? 'Active' : 'Inactive'}
-      </span>
-    </td>
-    <td>
-      <div class="action-buttons">
-        <button class="btn btn-success" onclick="editProduct('${product.id}')">Edit</button>
-        <button class="btn btn-danger" onclick="deleteProduct('${product.id}')">Delete</button>
-      </div>
+      <button onclick="editProduct('${product.id}')">Edit</button>
+      <button onclick="deleteProduct('${product.id}')">Delete</button>
     </td>
   `;
-  
   tbody.appendChild(row);
 }
 
-// Edit product
-async function editProduct(productId) {
-  try {
-    const doc = await db.collection('products').doc(productId).get();
-    
-    if (!doc.exists) {
-      alert('Product not found');
-      return;
-    }
-    
-    const product = doc.data();
-    currentEditingProductId = productId;
-    
-    // Fill form
-    document.getElementById('product-name').value = product.name || '';
-    document.getElementById('product-category').value = product.category || '';
-    document.getElementById('product-price').value = product.price || '';
-    document.getElementById('product-colors').value = Array.isArray(product.colors) 
-      ? product.colors.join(', ') 
-      : product.colors || '';
-    document.getElementById('product-active').checked = product.active !== false;
-    
-    // Show existing image
-    if (product.imageUrl) {
-      document.getElementById('image-preview-container').innerHTML = 
-        `<img src="${product.imageUrl}" alt="Current Image" class="image-preview">`;
-    }
-    
-    // Update form title and buttons
-    document.getElementById('form-title').textContent = 'Edit Product';
-    document.getElementById('submit-btn').textContent = 'Update Product';
-    document.getElementById('cancel-btn').style.display = 'block';
-    document.getElementById('product-image').required = false;
-    
-    // Scroll to form
-    document.querySelector('.product-form').scrollIntoView({ behavior: 'smooth' });
-    
-  } catch (error) {
-    console.error('Error loading product:', error);
-    alert('Error loading product: ' + error.message);
-  }
-}
+// ==========================
+// EDIT / DELETE
+// ==========================
+window.editProduct = async function (id) {
+  const snap = await getDoc(doc(db, "products", id));
+  if (!snap.exists()) return;
 
-// Delete product
-async function deleteProduct(productId) {
-  if (!confirm('Are you sure you want to delete this product?')) {
-    return;
-  }
-  
-  try {
-    await db.collection('products').doc(productId).delete();
-    loadProducts();
-    alert('Product deleted successfully!');
-  } catch (error) {
-    console.error('Error deleting product:', error);
-    alert('Error deleting product: ' + error.message);
-  }
-}
+  const p = snap.data();
+  currentEditingProductId = id;
 
-// Reset form
+  document.getElementById("product-name").value = p.name;
+  document.getElementById("product-category").value = p.category;
+  document.getElementById("product-price").value = p.price;
+  document.getElementById("product-colors").value = p.colors.join(", ");
+  document.getElementById("product-active").checked = p.active;
+};
+
+window.deleteProduct = async function (id) {
+  if (!confirm("Delete product?")) return;
+  await deleteDoc(doc(db, "products", id));
+  loadProducts();
+};
+
+// ==========================
 function resetForm() {
-  document.getElementById('product-form').reset();
-  document.getElementById('product-id').value = '';
-  document.getElementById('image-preview-container').innerHTML = '';
-  document.getElementById('form-title').textContent = 'Add New Product';
-  document.getElementById('submit-btn').textContent = 'Save Product';
-  document.getElementById('cancel-btn').style.display = 'none';
-  document.getElementById('product-image').required = true;
+  document.getElementById("product-form").reset();
   currentEditingProductId = null;
 }
 
-// Show alert
-function showAlert(container, message, type) {
-  container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+function showAlert(container, msg, type) {
+  container.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
 }
