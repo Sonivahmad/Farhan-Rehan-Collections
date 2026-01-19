@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Premium Shalwar Suit Collection - Bridal, Party Wear, Daily Wear">
+    <title>Farhan Rehan Collections - Premium Shalwar Suits</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Farhan Rehan Collections</a>
+            <button class="menu-toggle">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Premium Shalwar Suit Collection</h1>
+            <p>Discover elegant designs for every occasion - Bridal, Party Wear, Daily Wear & More</p>
+            <a href="#products" class="btn">View Collection</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Categories Section -->
+        <section id="categories">
+            <h2 class="section-title">Shop by Category</h2>
+            <div class="categories">
+                <div class="category-card active" data-category="all">
+                    <div class="category-icon">👗</div>
+                    <h3>All Products</h3>
+                </div>
+                <div class="category-card" data-category="Bridal">
+                    <div class="category-icon">💍</div>
+                    <h3>Bridal</h3>
+                </div>
+                <div class="category-card" data-category="Party Wear">
+                    <div class="category-icon">✨</div>
+                    <h3>Party Wear</h3>
+                </div>
+                <div class="category-card" data-category="Daily Wear">
+                    <div class="category-icon">👚</div>
+                    <h3>Daily Wear</h3>
+                </div>
+                <div class="category-card" data-category="New Arrivals">
+                    <div class="category-icon">🆕</div>
+                    <h3>New Arrivals</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products">
+            <h2 class="section-title">Our Collection</h2>
+            <div id="loading" class="loading" style="display: none;">
+                Loading products...
+            </div>
+            <div id="empty-state" class="empty-state" style="display: none;"></div>
+            <div id="products-grid" class="products-grid"></div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Farhan Rehan Collections</h3>
+                <p>Your trusted destination for premium shalwar suits. Quality fabrics, elegant designs, perfect fit.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <p><a href="index.html">Home</a></p>
+                <p><a href="about.html">About Us</a></p>
+                <p><a href="contact.html">Contact</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 Address: [Your Shop Address]</p>
+                <p>📞 Phone: [Your Phone Number]</p>
+                <p>📧 Email: [Your Email]</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Farhan Rehan Collections. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Sticky WhatsApp Button -->
+    <a href="#" class="whatsapp-float" aria-label="Contact on WhatsApp">
+        💬
+    </a>
+
+    <!-- Scripts -->
+    <script type="module" src="js/firebase.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
