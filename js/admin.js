@@ -147,6 +147,7 @@ async function handleProductSubmit(e) {
   console.log("🔥 SUBMIT HANDLER STARTED");
 
   const alertDiv = document.getElementById("form-alert");
+  showAlert(alertDiv, "Saving product...", "info");
   const btn = document.getElementById("submit-btn");
 
   btn.disabled = true;
@@ -296,11 +297,17 @@ window.editProduct = async function(id) {
 };
 
 window.deleteProduct = async function(id) {
-  if (confirm("Delete?")) {
-    await deleteDoc(doc(db, "products", id));
-    loadProducts();
-  }
+  const confirmed = await customConfirm("Delete this product?");
+  if (!confirmed) return;
+
+  const scrollY = window.scrollY;
+
+  await deleteDoc(doc(db, "products", id));
+  loadProducts();
+
+  window.scrollTo(0, scrollY);
 };
+
 
 function resetForm() {
   document.getElementById("product-form").reset();
@@ -311,4 +318,23 @@ function resetForm() {
 function showAlert(container, msg, type) {
   container.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
   setTimeout(() => container.innerHTML = "", 5000);
+}
+function customConfirm(message) {
+  return new Promise(resolve => {
+    const modal = document.getElementById("confirm-modal");
+    const text = document.getElementById("confirm-text");
+
+    text.textContent = message;
+    modal.classList.remove("hidden");
+
+    document.getElementById("confirm-yes").onclick = () => {
+      modal.classList.add("hidden");
+      resolve(true);
+    };
+
+    document.getElementById("confirm-no").onclick = () => {
+      modal.classList.add("hidden");
+      resolve(false);
+    };
+  });
 }
