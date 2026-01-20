@@ -1,7 +1,7 @@
 // ============================================
 // ADMIN PANEL - PRODUCT MANAGEMENT (MODULAR)
 // ============================================
-
+let isSaving = false;
 import { auth, db, storage } from "./firebase.js";
 
 console.log("1. firebase.js imported successfully");
@@ -144,36 +144,44 @@ function setupEventListeners() {
 // ==========================
 async function handleProductSubmit(e) {
   e.preventDefault();
-  console.log("13. PRODUCT FORM SUBMITTED!");
+
+  if (isSaving) return;
+  isSaving = true;
 
   const alertDiv = document.getElementById("form-alert");
+  const btn = document.getElementById("submit-btn");
+
+  btn.disabled = true;
+  btn.textContent = "Saving...";
+
   try {
     const data = getProductFormData();
-    console.log("14. Product data:", data);
 
-    // Image upload
-    if (document.getElementById("product-image").files[0]) {
-      console.log("15. Uploading image...");
-      data.imageUrl = await uploadProductImage(document.getElementById("product-image").files[0]);
+    const imageFile = document.getElementById("product-image").files[0];
+    if (imageFile) {
+      data.imageUrl = await uploadProductImage(imageFile);
     }
 
-    // Save to Firestore
-    if (currentEditingProductId) {
-      console.log("16. Updating product:", currentEditingProductId);
-      await updateDoc(doc(db, "products", currentEditingProductId), data);
-    } else {
-      console.log("17. Adding new product");
-      await addDoc(collection(db, "products"), { ...data, createdAt: serverTimestamp() });
-    }
+    await addDoc(collection(db, "products"), {
+      ...data,
+      createdAt: new Date()
+    });
 
     showAlert(alertDiv, "Product saved successfully!", "success");
     resetForm();
-    loadProducts();
+
+    setTimeout(loadProducts, 300); // reload list
+
   } catch (err) {
-    console.error("18. PRODUCT SAVE ERROR:", err);
+    console.error(err);
     showAlert(alertDiv, err.message, "error");
+  } finally {
+    isSaving = false;
+    btn.disabled = false;
+    btn.textContent = "Save Product";
   }
 }
+
 
 // ... rest of your functions unchanged (getProductFormData, uploadProductImage, etc.)
 function getProductFormData() {
@@ -203,12 +211,23 @@ function handleImagePreview(e) {
 }
 
 async function loadProducts() {
-  console.log("19. Loading products...");
+  console.log("Loading products...");
   const tbody = document.getElementById("products-tbody");
   tbody.innerHTML = "";
-  const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
-  const snapshot = await getDocs(q);
-  snapshot.forEach(docSnap => displayProductRow({ id: docSnap.id, ...docSnap.data() }, tbody));
+
+  try {
+    const snapshot = await getDocs(collection(db, "products"));
+
+    snapshot.forEach(docSnap => {
+      displayProductRow(
+        { id: docSnap.id, ...docSnap.data() },
+        tbody
+      );
+    });
+
+  } catch (err) {
+    console.error("Load products error:", err);
+  }
 }
 
 function displayProductRow(product, tbody) {
