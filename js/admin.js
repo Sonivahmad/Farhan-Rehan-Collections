@@ -323,7 +323,6 @@ window.deleteProduct = async function(id) {
 
 function resetForm() {
   document.getElementById("product-form").reset();
-  currentEditingProductId = null;
   document.getElementById("image-preview-container").innerHTML = "";
 }
 
