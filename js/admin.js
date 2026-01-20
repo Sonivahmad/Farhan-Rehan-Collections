@@ -214,13 +214,26 @@ function handleImagePreview(e) {
 async function loadProducts() {
   console.log("🧾 Loading products from Firestore...");
 
+  const table = document.getElementById("products-table");
   const tbody = document.getElementById("products-tbody");
+  const empty = document.getElementById("products-empty");
+
   tbody.innerHTML = "";
 
   try {
     const snapshot = await getDocs(collection(db, "products"));
 
     console.log("📊 Total products found:", snapshot.size);
+
+    if (snapshot.empty) {
+      table.style.display = "none";
+      empty.style.display = "block";
+      return;
+    }
+
+    // ✅ SHOW TABLE
+    table.style.display = "table";
+    empty.style.display = "none";
 
     snapshot.forEach(docSnap => {
       console.log("➡ Product:", docSnap.id, docSnap.data());
@@ -234,6 +247,7 @@ async function loadProducts() {
     console.error("❌ Load products error:", err);
   }
 }
+
 
 function displayProductRow(product, tbody) {
   const row = document.createElement("tr");
