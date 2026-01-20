@@ -208,6 +208,12 @@ nav {
   gap: 2rem;
   margin-top: 2rem;
 }
+.product-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
 
 .product-card {
   background: var(--white);

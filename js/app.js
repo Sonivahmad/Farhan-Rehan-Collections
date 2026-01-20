@@ -73,17 +73,27 @@ function displayProduct(product) {
   card.className = "product-card";
 
   card.innerHTML = `
-    <img src="${product.imageUrl}" alt="${product.name}">
-    <h3>${product.name}</h3>
-    <p>₹${product.price}</p>
-    <p>Colors: ${(product.colors || []).join(", ")}</p>
-    <button onclick="openWhatsApp('${product.name}', ${product.price})">
-      Order on WhatsApp
-    </button>
+    <img 
+      src="${product.imageUrl}" 
+      alt="${product.name}" 
+      class="product-image"
+      loading="lazy"
+    >
+    <div class="product-info">
+      <h3 class="product-name">${product.name}</h3>
+      <p class="product-price">₹${product.price}</p>
+      <p class="product-colors">
+        <strong>Colors:</strong> ${(product.colors || []).join(", ")}
+      </p>
+      <button class="btn btn-whatsapp" onclick="openWhatsApp('${product.name}', ${product.price})">
+        Order on WhatsApp
+      </button>
+    </div>
   `;
 
   grid.appendChild(card);
 }
+
 
 // --------------------
 // WHATSAPP
