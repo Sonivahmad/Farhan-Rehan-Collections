@@ -1,5 +1,5 @@
 // ============================================
-// CUSTOMER WEBSITE - MODULAR FIREBASE
+// WEBSITE - PRODUCT DISPLAY (MODULAR FIREBASE)
 // ============================================
 
 import { db } from "./firebase.js";
@@ -8,42 +8,39 @@ import {
   collection,
   query,
   where,
-  orderBy,
   getDocs
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
 const WHATSAPP_NUMBER = "91XXXXXXXXXX";
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadProducts();
+  loadProducts("all");
   setupCategoryFilters();
 });
 
-// ----------------------
+// --------------------
 // LOAD PRODUCTS
-// ----------------------
-async function loadProducts(category = "all") {
+// --------------------
+async function loadProducts(category) {
   const grid = document.getElementById("products-grid");
   const loading = document.getElementById("loading");
   const empty = document.getElementById("empty-state");
 
   grid.innerHTML = "";
-  empty.style.display = "none";
   loading.style.display = "block";
+  empty.style.display = "none";
 
   try {
     let q = query(
       collection(db, "products"),
-      where("active", "==", true),
-      orderBy("createdAt", "desc")
+      where("active", "==", true)
     );
 
     if (category !== "all") {
       q = query(
         collection(db, "products"),
         where("active", "==", true),
-        where("category", "==", category),
-        orderBy("createdAt", "desc")
+        where("category", "==", category)
       );
     }
 
@@ -62,21 +59,20 @@ async function loadProducts(category = "all") {
     });
 
   } catch (err) {
-    console.error("Load error:", err);
-    loading.style.display = "none";
+    console.error("Website load error:", err);
   }
 }
 
-// ----------------------
+// --------------------
 // DISPLAY PRODUCT
-// ----------------------
+// --------------------
 function displayProduct(product) {
   const grid = document.getElementById("products-grid");
 
-  const div = document.createElement("div");
-  div.className = "product-card";
+  const card = document.createElement("div");
+  card.className = "product-card";
 
-  div.innerHTML = `
+  card.innerHTML = `
     <img src="${product.imageUrl}" alt="${product.name}">
     <h3>${product.name}</h3>
     <p>₹${product.price}</p>
@@ -86,29 +82,28 @@ function displayProduct(product) {
     </button>
   `;
 
-  grid.appendChild(div);
+  grid.appendChild(card);
 }
 
-// ----------------------
+// --------------------
 // WHATSAPP
-// ----------------------
-window.openWhatsApp = function(name, price) {
+// --------------------
+window.openWhatsApp = function (name, price) {
   const msg = encodeURIComponent(`I want ${name} for ₹${price}`);
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
 };
 
-// ----------------------
+// --------------------
 // CATEGORY FILTER
-// ----------------------
+// --------------------
 function setupCategoryFilters() {
   document.querySelectorAll(".category-card").forEach(card => {
     card.addEventListener("click", () => {
       document.querySelectorAll(".category-card")
         .forEach(c => c.classList.remove("active"));
-      card.classList.add("active");
 
-      const category = card.dataset.category;
-      loadProducts(category);
+      card.classList.add("active");
+      loadProducts(card.dataset.category || "all");
     });
   });
 }
