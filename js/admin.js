@@ -154,28 +154,29 @@ async function handleProductSubmit(e) {
   try {
     const data = getProductFormData();
 
-    // 1️⃣ Save product WITHOUT image first (FAST)
+    // ⚡ STEP 1: SAVE PRODUCT IMMEDIATELY (NO IMAGE)
     const docRef = await addDoc(collection(db, "products"), {
       ...data,
       imageUrl: "",
       createdAt: new Date()
     });
 
-    showAlert(alertDiv, "Product saved (uploading image…)", "info");
-    loadProducts(); // instantly show product
+    // ✅ USER FEELS INSTANT SAVE
+    showAlert(alertDiv, "✅ Product saved instantly!", "success");
+    loadProducts();
 
-    // 2️⃣ Upload image AFTER save
+    // ⚡ STEP 2: UPLOAD IMAGE IN BACKGROUND
     const imageFile = document.getElementById("product-image").files[0];
     if (imageFile) {
-      const imageUrl = await uploadProductImage(imageFile);
-      await updateDoc(doc(db, "products", docRef.id), {
-        imageUrl
+      uploadProductImage(imageFile).then(async (url) => {
+        await updateDoc(doc(db, "products", docRef.id), {
+          imageUrl: url
+        });
+        loadProducts(); // update image silently
       });
     }
 
-    showAlert(alertDiv, "✅ Product added successfully", "success");
     resetForm();
-    loadProducts();
 
   } catch (err) {
     console.error(err);
@@ -352,6 +353,8 @@ function customConfirm(message) {
 document.getElementById("edit-save").onclick = async () => {
   if (!editingProductId) return;
 
+  const id = editingProductId;
+
   const data = {
     name: document.getElementById("edit-name").value,
     price: Number(document.getElementById("edit-price").value),
@@ -360,20 +363,64 @@ document.getElementById("edit-save").onclick = async () => {
       .map(c => c.trim())
   };
 
-  const imageFile = document.getElementById("edit-image").files[0];
-  if (imageFile) {
-    data.imageUrl = await uploadProductImage(imageFile);
-  }
+  // ⚡ 1️⃣ Update text instantly
+  await updateDoc(doc(db, "products", id), data);
 
-  await updateDoc(doc(db, "products", editingProductId), data);
-
+  // ⚡ 2️⃣ Close modal immediately
   document.getElementById("edit-modal").classList.add("hidden");
   editingProductId = null;
 
+  // ⚡ 3️⃣ Update UI instantly
   loadProducts();
+
+  // ⚡ 4️⃣ Upload image in background (non-blocking)
+ // ⚡ 4️⃣ Upload image in background (non-blocking)
+const imageFile = document.getElementById("edit-image").files[0];
+if (imageFile) {
+  compressImage(imageFile).then(compressed => {
+    uploadProductImage(compressed).then(async (url) => {
+      await updateDoc(doc(db, "products", id), {
+        imageUrl: url
+      });
+      loadProducts(); // update image silently
+    });
+  });
+}
+
+  
 };
+
+
 
 document.getElementById("edit-cancel").onclick = () => {
   document.getElementById("edit-modal").classList.add("hidden");
   editingProductId = null;
 };
+async function compressImage(file) {
+  return new Promise(resolve => {
+    const img = new Image();
+    const canvas = document.createElement("canvas");
+    const reader = new FileReader();
+
+    reader.onload = e => {
+      img.src = e.target.result;
+    };
+
+    img.onload = () => {
+      const MAX_WIDTH = 1000;
+      const scale = MAX_WIDTH / img.width;
+
+      canvas.width = MAX_WIDTH;
+      canvas.height = img.height * scale;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(blob => {
+        resolve(new File([blob], file.name, { type: "image/jpeg" }));
+      }, "image/jpeg", 0.7); // 70% quality
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
