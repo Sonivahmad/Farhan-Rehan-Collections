@@ -1,166 +1,114 @@
 // ============================================
-// CUSTOMER WEBSITE - PRODUCT DISPLAY & WHATSAPP
+// CUSTOMER WEBSITE - MODULAR FIREBASE
 // ============================================
+
 import { db } from "./firebase.js";
 
-// WhatsApp number (replace with actual number)
-const WHATSAPP_NUMBER = '91XXXXXXXXXX';
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-  initializeApp();
+const WHATSAPP_NUMBER = "91XXXXXXXXXX";
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts();
+  setupCategoryFilters();
 });
 
-// Initialize application
-function initializeApp() {
-  // Load products
-  loadProducts();
-  
-  // Setup category filters
-  setupCategoryFilters();
-  
-  // Setup mobile menu toggle
-  setupMobileMenu();
-}
+// ----------------------
+// LOAD PRODUCTS
+// ----------------------
+async function loadProducts(category = "all") {
+  const grid = document.getElementById("products-grid");
+  const loading = document.getElementById("loading");
+  const empty = document.getElementById("empty-state");
 
-// Load products from Firestore
-async function loadProducts(category = 'all') {
-  const productsGrid = document.getElementById('products-grid');
-  const loadingEl = document.getElementById('loading');
-  const emptyState = document.getElementById('empty-state');
-  
-  // Show loading
-  if (loadingEl) loadingEl.style.display = 'block';
-  if (productsGrid) productsGrid.innerHTML = '';
-  if (emptyState) emptyState.style.display = 'none';
-  
+  grid.innerHTML = "";
+  empty.style.display = "none";
+  loading.style.display = "block";
+
   try {
-    let query = db.collection('products').where('active', '==', true);
-    
-    // If category filter is applied
-    if (category !== 'all') {
-      query = query.where('category', '==', category);
+    let q = query(
+      collection(db, "products"),
+      where("active", "==", true),
+      orderBy("createdAt", "desc")
+    );
+
+    if (category !== "all") {
+      q = query(
+        collection(db, "products"),
+        where("active", "==", true),
+        where("category", "==", category),
+        orderBy("createdAt", "desc")
+      );
     }
-    
-    const snapshot = await query.orderBy('createdAt', 'desc').get();
-    
-    if (loadingEl) loadingEl.style.display = 'none';
-    
+
+    const snapshot = await getDocs(q);
+
+    loading.style.display = "none";
+
     if (snapshot.empty) {
-      if (emptyState) {
-        emptyState.style.display = 'block';
-        emptyState.innerHTML = `
-          <p>No products found in this category.</p>
-          <p>Please check back later!</p>
-        `;
-      }
+      empty.style.display = "block";
+      empty.innerHTML = "<p>No products found.</p>";
       return;
     }
-    
-    // Display products
-    snapshot.forEach(doc => {
-      const product = { id: doc.id, ...doc.data() };
-      displayProduct(product, productsGrid);
+
+    snapshot.forEach(docSnap => {
+      displayProduct({ id: docSnap.id, ...docSnap.data() });
     });
-    
-  } catch (error) {
-    console.error('Error loading products:', error);
-    if (loadingEl) loadingEl.style.display = 'none';
-    if (productsGrid) {
-      productsGrid.innerHTML = '<p style="text-align: center; color: red;">Error loading products. Please refresh the page.</p>';
-    }
+
+  } catch (err) {
+    console.error("Load error:", err);
+    loading.style.display = "none";
   }
 }
 
-// Display a single product card
-function displayProduct(product, container) {
-  const productCard = document.createElement('div');
-  productCard.className = 'product-card';
-  
-  // Format colors
-  const colorsText = Array.isArray(product.colors) 
-    ? product.colors.join(', ') 
-    : product.colors || 'Available';
-  
-  productCard.innerHTML = `
-    <img src="${product.imageUrl || 'https://via.placeholder.com/300x300?text=No+Image'}" 
-         alt="${product.name}" 
-         class="product-image"
-         onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-    <div class="product-info">
-      <h3 class="product-name">${product.name}</h3>
-      <div class="product-price">₹${product.price || 'N/A'}</div>
-      <div class="product-colors">
-        <strong>Colors:</strong> ${colorsText}
-      </div>
-      <button class="btn btn-whatsapp" onclick="openWhatsApp('${product.name}', ${product.price || 0}, '${colorsText}')">
-        Order on WhatsApp
-      </button>
-    </div>
+// ----------------------
+// DISPLAY PRODUCT
+// ----------------------
+function displayProduct(product) {
+  const grid = document.getElementById("products-grid");
+
+  const div = document.createElement("div");
+  div.className = "product-card";
+
+  div.innerHTML = `
+    <img src="${product.imageUrl}" alt="${product.name}">
+    <h3>${product.name}</h3>
+    <p>₹${product.price}</p>
+    <p>Colors: ${(product.colors || []).join(", ")}</p>
+    <button onclick="openWhatsApp('${product.name}', ${product.price})">
+      Order on WhatsApp
+    </button>
   `;
-  
-  container.appendChild(productCard);
+
+  grid.appendChild(div);
 }
 
-// Open WhatsApp with pre-filled message
-function openWhatsApp(productName, price, colors) {
-  const message = encodeURIComponent(
-    `I want ${productName}\nPrice: ₹${price}\nAvailable colors: ${colors}`
-  );
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
-  window.open(whatsappUrl, '_blank');
-}
+// ----------------------
+// WHATSAPP
+// ----------------------
+window.openWhatsApp = function(name, price) {
+  const msg = encodeURIComponent(`I want ${name} for ₹${price}`);
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+};
 
-// Setup category filters
+// ----------------------
+// CATEGORY FILTER
+// ----------------------
 function setupCategoryFilters() {
-  const categoryCards = document.querySelectorAll('.category-card');
-  
-  categoryCards.forEach(card => {
-    card.addEventListener('click', (e) => {
-      e.preventDefault();
-      
-      // Remove active class from all
-      categoryCards.forEach(c => c.classList.remove('active'));
-      
-      // Add active class to clicked
-      card.classList.add('active');
-      
-      // Get category from data attribute or text
-      const category = card.dataset.category || card.textContent.trim().toLowerCase().replace(/\s+/g, '');
-      
-      // Load products for this category
-      loadProducts(category === 'all' ? 'all' : card.textContent.trim());
+  document.querySelectorAll(".category-card").forEach(card => {
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".category-card")
+        .forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+
+      const category = card.dataset.category;
+      loadProducts(category);
     });
   });
 }
-
-// Setup mobile menu toggle
-function setupMobileMenu() {
-  const menuToggle = document.querySelector('.menu-toggle');
-  const navLinks = document.querySelector('.nav-links');
-  
-  if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
-        navLinks.classList.remove('active');
-      }
-    });
-  }
-}
-
-// Sticky WhatsApp button click handler
-document.addEventListener('DOMContentLoaded', () => {
-  const whatsappFloat = document.querySelector('.whatsapp-float');
-  if (whatsappFloat) {
-    whatsappFloat.addEventListener('click', (e) => {
-      e.preventDefault();
-      const message = encodeURIComponent('Hello! I would like to know more about your collection.');
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
-    });
-  }
-});
