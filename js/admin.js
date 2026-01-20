@@ -144,10 +144,7 @@ function setupEventListeners() {
 async function handleProductSubmit(e) {
   e.preventDefault();
 
-  console.log("🔥 SUBMIT HANDLER STARTED");
-
   const alertDiv = document.getElementById("form-alert");
-  showAlert(alertDiv, "Saving product...", "info");
   const btn = document.getElementById("submit-btn");
 
   btn.disabled = true;
@@ -155,27 +152,32 @@ async function handleProductSubmit(e) {
 
   try {
     const data = getProductFormData();
-    console.log("📦 Product data:", data);
 
-    const imageFile = document.getElementById("product-image").files[0];
-    if (imageFile) {
-      console.log("🖼 Uploading image...");
-      data.imageUrl = await uploadProductImage(imageFile);
-    }
-
-    console.log("📤 Adding product to Firestore...");
-    await addDoc(collection(db, "products"), {
+    // 1️⃣ Save product WITHOUT image first (FAST)
+    const docRef = await addDoc(collection(db, "products"), {
       ...data,
+      imageUrl: "",
       createdAt: new Date()
     });
 
-    showAlert(alertDiv, "Product saved successfully!", "success");
-    resetForm();
+    showAlert(alertDiv, "Product saved (uploading image…)", "info");
+    loadProducts(); // instantly show product
 
+    // 2️⃣ Upload image AFTER save
+    const imageFile = document.getElementById("product-image").files[0];
+    if (imageFile) {
+      const imageUrl = await uploadProductImage(imageFile);
+      await updateDoc(doc(db, "products", docRef.id), {
+        imageUrl
+      });
+    }
+
+    showAlert(alertDiv, "✅ Product added successfully", "success");
+    resetForm();
     loadProducts();
 
   } catch (err) {
-    console.error("❌ SAVE ERROR:", err);
+    console.error(err);
     showAlert(alertDiv, err.message, "error");
   } finally {
     btn.disabled = false;
