@@ -212,14 +212,18 @@ function handleImagePreview(e) {
 }
 
 async function loadProducts() {
-  console.log("Loading products...");
+  console.log("🧾 Loading products from Firestore...");
+
   const tbody = document.getElementById("products-tbody");
   tbody.innerHTML = "";
 
   try {
     const snapshot = await getDocs(collection(db, "products"));
 
+    console.log("📊 Total products found:", snapshot.size);
+
     snapshot.forEach(docSnap => {
+      console.log("➡ Product:", docSnap.id, docSnap.data());
       displayProductRow(
         { id: docSnap.id, ...docSnap.data() },
         tbody
@@ -227,7 +231,7 @@ async function loadProducts() {
     });
 
   } catch (err) {
-    console.error("Load products error:", err);
+    console.error("❌ Load products error:", err);
   }
 }
 
