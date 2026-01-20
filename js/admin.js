@@ -1,6 +1,8 @@
 // ============================================
 // ADMIN PANEL - PRODUCT MANAGEMENT (MODULAR)
 // ============================================
+let editingProductId = null;
+
 import { auth, db, storage } from "./firebase.js";
 
 console.log("1. firebase.js imported successfully");
@@ -33,7 +35,6 @@ import {
 
 console.log("3. Auth functions imported OK");
 
-let currentEditingProductId = null;
 
 // ==========================
 // INIT - Wait for DOM ready
@@ -285,18 +286,27 @@ function displayProductRow(product, tbody) {
 
 
 window.editProduct = async function(id) {
-  console.log("Editing product:", id);
   const snap = await getDoc(doc(db, "products", id));
-  if (snap.exists()) {
-    const p = snap.data();
-    currentEditingProductId = id;
-    document.getElementById("product-name").value = p.name || "";
-    document.getElementById("product-category").value = p.category || "";
-    document.getElementById("product-price").value = p.price || 0;
-    document.getElementById("product-colors").value = (p.colors||[]).join(", ");
-    document.getElementById("product-active").checked = p.active || false;
+  if (!snap.exists()) return;
+
+  const p = snap.data();
+  editingProductId = id;
+
+  document.getElementById("edit-name").value = p.name || "";
+  document.getElementById("edit-price").value = p.price || 0;
+  document.getElementById("edit-colors").value = (p.colors || []).join(", ");
+
+  const preview = document.getElementById("edit-image-preview");
+  if (p.imageUrl) {
+    preview.src = p.imageUrl;
+    preview.style.display = "block";
+  } else {
+    preview.style.display = "none";
   }
+
+  document.getElementById("edit-modal").classList.remove("hidden");
 };
+
 
 window.deleteProduct = async function(id) {
   const confirmed = await customConfirm("Delete this product?");
@@ -340,3 +350,31 @@ function customConfirm(message) {
     };
   });
 }
+document.getElementById("edit-save").onclick = async () => {
+  if (!editingProductId) return;
+
+  const data = {
+    name: document.getElementById("edit-name").value,
+    price: Number(document.getElementById("edit-price").value),
+    colors: document.getElementById("edit-colors").value
+      .split(",")
+      .map(c => c.trim())
+  };
+
+  const imageFile = document.getElementById("edit-image").files[0];
+  if (imageFile) {
+    data.imageUrl = await uploadProductImage(imageFile);
+  }
+
+  await updateDoc(doc(db, "products", editingProductId), data);
+
+  document.getElementById("edit-modal").classList.add("hidden");
+  editingProductId = null;
+
+  loadProducts();
+};
+
+document.getElementById("edit-cancel").onclick = () => {
+  document.getElementById("edit-modal").classList.add("hidden");
+  editingProductId = null;
+};
