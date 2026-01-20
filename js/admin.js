@@ -1,7 +1,6 @@
 // ============================================
 // ADMIN PANEL - PRODUCT MANAGEMENT (MODULAR)
 // ============================================
-let isSaving = false;
 import { auth, db, storage } from "./firebase.js";
 
 console.log("1. firebase.js imported successfully");
@@ -143,12 +142,9 @@ function setupEventListeners() {
 // PRODUCT FUNCTIONS (with logs)
 // ==========================
 async function handleProductSubmit(e) {
-  
-  console.log("🔥 SUBMIT HANDLER STARTED");
   e.preventDefault();
 
-  if (isSaving) return;
-  isSaving = true;
+  console.log("🔥 SUBMIT HANDLER STARTED");
 
   const alertDiv = document.getElementById("form-alert");
   const btn = document.getElementById("submit-btn");
@@ -158,12 +154,15 @@ async function handleProductSubmit(e) {
 
   try {
     const data = getProductFormData();
+    console.log("📦 Product data:", data);
 
     const imageFile = document.getElementById("product-image").files[0];
     if (imageFile) {
+      console.log("🖼 Uploading image...");
       data.imageUrl = await uploadProductImage(imageFile);
     }
 
+    console.log("📤 Adding product to Firestore...");
     await addDoc(collection(db, "products"), {
       ...data,
       createdAt: new Date()
@@ -172,17 +171,17 @@ async function handleProductSubmit(e) {
     showAlert(alertDiv, "Product saved successfully!", "success");
     resetForm();
 
-    setTimeout(loadProducts, 300); // reload list
+    loadProducts();
 
   } catch (err) {
-    console.error(err);
+    console.error("❌ SAVE ERROR:", err);
     showAlert(alertDiv, err.message, "error");
   } finally {
-    isSaving = false;
     btn.disabled = false;
     btn.textContent = "Save Product";
   }
 }
+
 
 
 // ... rest of your functions unchanged (getProductFormData, uploadProductImage, etc.)
