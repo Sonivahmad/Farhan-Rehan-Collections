@@ -143,6 +143,8 @@ function setupEventListeners() {
 // PRODUCT FUNCTIONS (with logs)
 // ==========================
 async function handleProductSubmit(e) {
+  
+  console.log("🔥 SUBMIT HANDLER STARTED");
   e.preventDefault();
 
   if (isSaving) return;
