@@ -334,7 +334,7 @@ footer {
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-hover);
-  z-index: 999;
+  z-index: 9999;
   transition: var(--transition);
   text-decoration: none;
   color: var(--white);
@@ -443,4 +443,18 @@ footer {
   .categories {
     grid-template-columns: 1fr;
   }
+}
+/* ===============================
+   MOBILE CLICK FIXES (IMPORTANT)
+   =============================== */
+
+/* Make hamburger always clickable */
+.menu-toggle {
+  position: relative;
+  z-index: 3000;
+}
+
+/* Make mobile dropdown menu appear on top */
+.nav-links {
+  z-index: 2000;
 }
