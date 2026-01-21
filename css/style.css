@@ -392,9 +392,8 @@ footer {
 /* Responsive Design */
 @media (max-width: 768px) {
   .nav-links {
-    display: none;
     position: fixed;
-    top: 64px; /* below header */
+    top: 64px;
     left: 0;
     right: 0;
     background: var(--white);
@@ -402,11 +401,20 @@ footer {
     padding: 1rem;
     box-shadow: var(--shadow);
     z-index: 5500;
+  
+    /* 🔥 THIS FIXES WHATSAPP */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
   }
-
+  
   .nav-links.active {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
+  
   .menu-toggle {
     display: block;
   }
