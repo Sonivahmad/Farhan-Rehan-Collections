@@ -152,3 +152,16 @@ function setupCategoryFilters() {
     });
   });
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const whatsappFloat = document.querySelector(".whatsapp-float");
+
+  if (whatsappFloat) {
+    whatsappFloat.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.open(
+        "https://wa.me/917701853043?text=Hello! I want to know more about your collection.",
+        "_blank"
+      );
+    });
+  }
+});

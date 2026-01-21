@@ -35,7 +35,7 @@ header {
   box-shadow: var(--shadow);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 5000;
   padding: 1rem 0;
 }
 
@@ -79,10 +79,15 @@ nav {
   font-size: 1.5rem;
   cursor: pointer;
   color: var(--text-dark);
+  position: relative;
+  z-index: 6000;
 }
 
 /* Hero Section */
 .hero {
+  position: relative;   /* 🔥 ADD THIS */
+  z-index: 1;           /* 🔥 ADD THIS */
+
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   color: var(--white);
   padding: 4rem 1rem;
@@ -388,20 +393,20 @@ footer {
 @media (max-width: 768px) {
   .nav-links {
     display: none;
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 64px; /* below header */
     left: 0;
     right: 0;
     background: var(--white);
     flex-direction: column;
     padding: 1rem;
     box-shadow: var(--shadow);
+    z-index: 5500;
   }
 
   .nav-links.active {
     display: flex;
   }
-
   .menu-toggle {
     display: block;
   }
