@@ -1,6 +1,22 @@
 // ============================================
 // WEBSITE - PRODUCT DISPLAY (REALTIME + FAST)
 // ============================================
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts("all");
+  setupCategoryFilters();
+  setupHamburgerMenu();
+});
+function setupHamburgerMenu() {
+  const menuToggle = document.querySelector(".menu-toggle");
+  const navLinks = document.querySelector(".nav-links");
+
+  if (!menuToggle || !navLinks) return;
+
+  menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+  });
+}
+
 
 import { db } from "./firebase.js";
 
@@ -16,16 +32,7 @@ import {
 // --------------------
 const WHATSAPP_NUMBER = "91XXXXXXXXXX";
 
-// --------------------
-// INIT
-// --------------------
-document.addEventListener("DOMContentLoaded", () => {
-  loadProducts("all");
-  setupCategoryFilters();
-});
 
-// --------------------
-// REALTIME LISTENER HOLDER
 // --------------------
 let unsubscribeProducts = null;
 
@@ -152,16 +159,3 @@ function setupCategoryFilters() {
     });
   });
 }
-document.addEventListener("DOMContentLoaded", () => {
-  const whatsappFloat = document.querySelector(".whatsapp-float");
-
-  if (whatsappFloat) {
-    whatsappFloat.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.open(
-        "https://wa.me/917701853043?text=Hello! I want to know more about your collection.",
-        "_blank"
-      );
-    });
-  }
-});
