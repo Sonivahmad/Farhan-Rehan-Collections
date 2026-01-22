@@ -1,101 +1,362 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="About Farhan Rehan Collections - Premium Shalwar Suit Shop">
-    <title>About Us - Farhan Rehan Collections</title>
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="About Farhan Rehan Collections - Premium Shalwar Suit Shop" />
+  <title>About Us - Farhan Rehan Collections</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ABOUT PAGE */
+
+.about-hero {
+  background: linear-gradient(135deg, #111, #222);
+  color: #fff;
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.about-hero h1 {
+  font-size: 2.5rem;
+}
+
+.about-container {
+  padding: 3rem 1rem;
+}
+
+.about-intro {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: center;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* Promise */
+.promise-section {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.promise-grid {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.promise-card {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* Gallery */
+.shop-gallery {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.gallery-grid {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-grid img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+/* OWNERS SECTION */
+
+.owners-section {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.owners-section p {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.owners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.owner-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.owner-card:hover {
+  transform: translateY(-8px);
+}
+
+.owner-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 4px solid #eee;
+}
+
+.owner-card h3 {
+  margin-bottom: 0.2rem;
+}
+
+.owner-card span {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.owner-card p {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* NAVBAR FIX */
+.navbar {
+  position: relative;
+  z-index: 999;
+}
+
+/* Hamburger */
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Desktop */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 320px;
+
+    display: none;
+    flex-direction: column;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    z-index: 1000;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+}
+
+
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <a href="index.html" class="logo">Farhan Rehan Collections</a>
-            <button class="menu-toggle">☰</button>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#categories">Categories</a></li>
-                <li><a href="index.html#products">Products</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Main Content -->
-    <main class="container">
-        <div class="page-content">
-            <h2>About Farhan Rehan Collections</h2>
-            <p>
-                Welcome to Farhan Rehan Collections, your premier destination for exquisite shalwar suits. 
-                We specialize in bringing you the finest collection of traditional and contemporary designs 
-                that blend elegance with comfort.
-            </p>
-            <p>
-                With years of experience in the fashion industry, we understand the importance of quality 
-                fabrics, perfect fit, and timeless designs. Our collection features a wide range of styles 
-                suitable for every occasion - from grand bridal ceremonies to casual daily wear.
-            </p>
-            <h2 style="margin-top: 2rem;">Our Promise</h2>
-            <p>
-                At Farhan Rehan Collections, we are committed to:
-            </p>
-            <ul style="margin-left: 2rem; color: var(--text-light); line-height: 2;">
-                <li>Premium quality fabrics and materials</li>
-                <li>Elegant and contemporary designs</li>
-                <li>Perfect fit and comfort</li>
-                <li>Excellent customer service</li>
-                <li>Competitive pricing</li>
-            </ul>
-            <p style="margin-top: 2rem;">
-                Visit our showroom or browse our online collection. We're here to help you find the perfect 
-                outfit for your special occasion.
-            </p>
-        </div>
-    </main>
+<!-- Header -->
+<header>
+  <nav>
+    <a href="index.html" class="logo">Farhan Rehan Collections</a>
+    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#categories">Categories</a></li>
+      <li><a href="index.html#products">Products</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Farhan Rehan Collections</h3>
-                <p>Your trusted destination for premium shalwar suits.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <p><a href="index.html">Home</a></p>
-                <p><a href="about.html">About Us</a></p>
-                <p><a href="contact.html">Contact</a></p>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <p>📍 Address: [Your Shop Address]</p>
-                <p>📞 Phone: [Your Phone Number]</p>
-                <p>📧 Email: [Your Email]</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Farhan Rehan Collections. All rights reserved.</p>
-        </div>
-    </footer>
+<!-- About Hero -->
+<section class="about-hero">
+  <h1>About Us</h1>
+  <p>Tradition • Quality • Elegance</p>
+</section>
 
-    <!-- Sticky WhatsApp Button -->
-    <a href="#" class="whatsapp-float" aria-label="Contact on WhatsApp">
-        💬
-    </a>
-    <a
-    href="https://wa.me/917701853043"
-    target="_blank"
-    class="whatsapp-float"
-    aria-label="Chat on WhatsApp">
-    💬
-  </a>
+<!-- About Content -->
+<main class="container about-container">
+
+  <!-- Intro Section -->
+  <section class="about-intro">
+    <div class="about-text">
+      <h2>Farhan Rehan Collections</h2>
+      <p>
+        Welcome to <strong>Farhan Rehan Collections</strong>, your trusted destination for premium
+        shalwar suits. We bring together traditional craftsmanship and modern style to create
+        outfits that feel as good as they look.
+      </p>
+      <p>
+        With years of experience in the fashion industry, we focus on quality fabrics, perfect
+        fitting, and timeless designs suitable for weddings, festivals, and daily wear.
+      </p>
+    </div>
+
+    <div class="about-image">
+      <img src="preview.jpg" alt="Farhan Rehan Collections Shop">
+    </div>
+  </section>
+
+  <!-- Our Promise -->
+  <section class="promise-section">
+    <h2>Our Promise</h2>
+
+    <div class="promise-grid">
+      <div class="promise-card">✔ Premium Quality Fabrics</div>
+      <div class="promise-card">✔ Elegant & Modern Designs</div>
+      <div class="promise-card">✔ Comfortable & Perfect Fit</div>
+      <div class="promise-card">✔ Honest Pricing</div>
+      <div class="promise-card">✔ Friendly Customer Service</div>
+    </div>
+  </section>
+  <!-- Owners Section -->
+<section class="owners-section">
+    <h2>Meet the Owners</h2>
+    <p>The people behind Farhan Rehan Collections</p>
   
-    <!-- Scripts -->
-    <script src="js/firebase.js"></script>
-    <script src="js/app.js"></script>
+    <div class="owners-grid">
+  
+      <div class="owner-card">
+        <img src="images/owner-1.jpg" alt="Owner 1 - Farhan">
+        <h3>Farhan</h3>
+        <span>Co-Founder</span>
+        <p>
+          Passionate about traditional fashion and committed to delivering
+          premium quality menswear with a modern touch.
+        </p>
+      </div>
+  
+      <div class="owner-card">
+        <img src="images/owner-2.jpg" alt="Owner 2 - Rehan">
+        <h3>Rehan</h3>
+        <span>Co-Founder</span>
+        <p>
+          Focused on customer experience, perfect fitting, and making every
+          client feel confident and comfortable.
+        </p>
+      </div>
+  
+    </div>
+  </section>
+  
+
+  <!-- Shop Gallery -->
+  <section class="shop-gallery">
+    <h2>Our Shop</h2>
+    <p>Take a look inside our showroom</p>
+
+    <div class="gallery-grid">
+      <img src="images/shop-1.jpg" alt="Shop Interior">
+      <img src="images/shop-2.jpg" alt="Clothing Display">
+      <img src="images/shop-3.jpg" alt="Shalwar Suit Collection">
+      <img src="images/shop-4.jpg" alt="Menswear Section">
+    </div>
+  </section>
+
+</main>
+
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="footer-content">
+  
+      <div class="footer-section">
+        <h3>Farhan Rehan Collections</h3>
+        <p>
+          Farhan Rehan Collections is a trusted destination for premium ladies
+          shalwar suits in Mirganj, Bareilly. We offer bridal wear, party wear,
+          daily wear, and new arrivals crafted with quality fabrics and elegant designs.
+        </p>
+      </div>
+  
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-section">
+        <h3>Contact Information</h3>
+        <p>📍 Imam Badha Gali, Choodi Market, Mirganj, Bareilly, UP – 243504</p>
+        <p>📞 <a href="tel:+917701853043">+91 77018 53043</a></p>
+        <p>
+          💬 <a href="https://wa.me/917701853043" target="_blank">
+            Chat on WhatsApp
+          </a>
+        </p>
+      </div>
+  
+    </div>
+  
+    <div class="footer-bottom">
+      <p>&copy; 2024 Farhan Rehan Collections. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
+      
+
+<!-- WhatsApp -->
+<a href="https://wa.me/917701853043" target="_blank" class="whatsapp-float">
+  💬
+</a>
+
+<script src="js/app.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  if (!menuToggle || !navLinks) return;
+
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+  // Close menu when clicking a link
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+    });
+  });
+});
+
+</script>
 </body>
 </html>

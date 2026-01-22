@@ -1,112 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contact Farhan Rehan Collections">
-    <title>Contact Us - Farhan Rehan Collections</title>
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact Farhan Rehan Collections" />
+  <title>Contact Us - Farhan Rehan Collections</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* CONTACT PAGE */
+
+.contact-hero {
+  background: linear-gradient(135deg, #111, #222);
+  color: #fff;
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.contact-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.contact-hero p {
+  opacity: 0.85;
+}
+
+/* Grid */
+.contact-container {
+  padding: 3rem 1rem;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.contact-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+}
+
+.contact-card h3 {
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.contact-card a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Map */
+.map-section {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.map-section h2 {
+  margin-bottom: 1rem;
+}
+
+.map-box {
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.map-box iframe {
+  width: 100%;
+  height: 350px;
+  border: 0;
+}
+
+/* Notes */
+.contact-note {
+  margin-top: 2rem;
+  text-align: center;
+  color: #444;
+}
+
+/* WhatsApp Button */
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: #fff;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  z-index: 999;
+  text-decoration: none;
+}
+/* Hamburger button */
+.menu-toggle {
+  display: none;
+  font-size: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 320px;
+
+    display: none;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    padding: 1rem;
+    z-index: 1000;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+}
+}
+nav {
+  position: relative;
+}
+
+
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <a href="index.html" class="logo">Farhan Rehan Collections</a>
-            <button class="menu-toggle">☰</button>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#categories">Categories</a></li>
-                <li><a href="index.html#products">Products</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Main Content -->
-    <main class="container">
-        <div class="page-content">
-            <h2>Contact Us</h2>
-            <p>
-                We'd love to hear from you! Get in touch with us through any of the following ways:
-            </p>
-            
-            <div class="contact-info">
-                <div class="contact-item">
-                    <strong>📍 Address:</strong>
-                    <span>[Your Shop Address, City, State, PIN Code]</span>
-                </div>
-                <div class="contact-item">
-                    <strong>📞 Phone:</strong>
-                    <span><a href="tel:+91XXXXXXXXXX">+91 XXXXXXXXXX</a></span>
-                </div>
-                <div class="contact-item">
-                    <strong>📧 Email:</strong>
-                    <span><a href="mailto:info@example.com">info@example.com</a></span>
-                </div>
-                <div class="contact-item">
-                    <strong>💬 WhatsApp:</strong>
-                    <span><a href="https://wa.me/91XXXXXXXXXX" target="_blank">Click to Chat</a></span>
-                </div>
-                <div class="contact-item">
-                    <strong>🕐 Timings:</strong>
-                    <span>Monday - Saturday: 10:00 AM - 8:00 PM<br>Sunday: 12:00 PM - 6:00 PM</span>
-                </div>
-            </div>
+<!-- Header -->
+<header>
+  <nav>
+    <a href="index.html" class="logo">Farhan Rehan Collections</a>
+    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#categories">Categories</a></li>
+      <li><a href="index.html#products">Products</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+</header>
 
-            <p style="margin-top: 2rem;">
-                <strong>Visit Our Showroom:</strong> We welcome walk-in customers. Feel free to visit us during 
-                our business hours to see our collection in person and get personalized assistance.
-            </p>
-            
-            <p style="margin-top: 1rem;">
-                <strong>Online Orders:</strong> Browse our collection online and place your order via WhatsApp. 
-                We'll guide you through the process and ensure you get the perfect fit.
-            </p>
-        </div>
-    </main>
+<!-- Contact Hero -->
+<section class="contact-hero">
+  <h1>Get in Touch</h1>
+  <p>We’re here to help you find the perfect fit ✨</p>
+</section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Farhan Rehan Collections</h3>
-                <p>Your trusted destination for premium shalwar suits.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <p><a href="index.html">Home</a></p>
-                <p><a href="about.html">About Us</a></p>
-                <p><a href="contact.html">Contact</a></p>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <p>📍 Address: [Your Shop Address]</p>
-                <p>📞 Phone: [Your Phone Number]</p>
-                <p>📧 Email: [Your Email]</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Farhan Rehan Collections. All rights reserved.</p>
-        </div>
-    </footer>
+<!-- Main Content -->
+<main class="container contact-container">
 
-    <!-- Sticky WhatsApp Button -->
-    <a href="#" class="whatsapp-float" aria-label="Contact on WhatsApp">
-        💬
-    </a>
-    <a
-    href="https://wa.me/917701853043"
-    target="_blank"
-    class="whatsapp-float"
-    aria-label="Chat on WhatsApp">
-    💬
-  </a>
+  <!-- Contact Cards -->
+  <div class="contact-grid">
+
+    <div class="contact-card">
+      <h3>📍 Address</h3>
+      <p>Your Shop Address,<br>City, State, PIN Code</p>
+    </div>
+
+    <div class="contact-card">
+      <h3>📞 Phone</h3>
+      <p><a href="tel:+91XXXXXXXXXX">+91 XXXXXXXXXX</a></p>
+    </div>
+
+    <div class="contact-card">
+      <h3>📧 Email</h3>
+      <p><a href="mailto:info@example.com">info@example.com</a></p>
+    </div>
+
+    <div class="contact-card">
+      <h3>🕐 Timings</h3>
+      <p>
+        Mon – Sat: 10:00 AM – 8:00 PM<br>
+        Sun: 12:00 PM – 6:00 PM
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Map Section -->
+  <section class="map-section">
+    <h2>Visit Our Showroom</h2>
+    <div class="map-box">
+      <iframe
+        src="https://www.google.com/maps?q=Delhi&output=embed"
+        loading="lazy"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </section>
+
+  <!-- Extra Info -->
+  <section class="contact-note">
+    <p>
+      <strong>Walk-ins Welcome:</strong> Visit us during business hours to explore our
+      latest collections in person.
+    </p>
+    <p>
+      <strong>Online Orders:</strong> Order easily via WhatsApp and get personal assistance.
+    </p>
+  </section>
+
+</main>
+
+ <!-- Footer -->
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="footer-content">
   
-    <!-- Scripts -->
-    <script src="js/firebase.js"></script>
-    <script src="js/app.js"></script>
+      <div class="footer-section">
+        <h3>Farhan Rehan Collections</h3>
+        <p>
+          Farhan Rehan Collections is a trusted destination for premium ladies
+          shalwar suits in Mirganj, Bareilly. We offer bridal wear, party wear,
+          daily wear, and new arrivals crafted with quality fabrics and elegant designs.
+        </p>
+      </div>
+  
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-section">
+        <h3>Contact Information</h3>
+        <p>📍 Imam Badha Gali, Choodi Market, Mirganj, Bareilly, UP – 243504</p>
+        <p>📞 <a href="tel:+917701853043">+91 77018 53043</a></p>
+        <p>
+          💬 <a href="https://wa.me/917701853043" target="_blank">
+            Chat on WhatsApp
+          </a>
+        </p>
+      </div>
+  
+    </div>
+  
+    <div class="footer-bottom">
+      <p>&copy; 2024 Farhan Rehan Collections. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
+      
+
+<!-- WhatsApp Floating Button -->
+<a
+  href="https://wa.me/917701853043"
+  target="_blank"
+  class="whatsapp-float"
+  aria-label="Chat on WhatsApp">
+  💬
+</a>
+
+<script src="js/app.js"></script>
+<script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+  
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+  </script>
+  
 </body>
 </html>

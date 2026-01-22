@@ -107,7 +107,8 @@ content="Farhan Rehan Collections, ladies suit shop Mirganj, shalwar suit shop M
     }
     </script>
     
-    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -115,7 +116,14 @@ content="Farhan Rehan Collections, ladies suit shop Mirganj, shalwar suit shop M
     <!-- Header -->
     <header>
         <nav>
-            <a href="index.html" class="logo">Farhan Rehan Collections</a>
+          <a href="index.html" class="brand-logo">
+            <span class="brand-name">
+              Farhan <span class="amp">&amp;</span> Rehan
+            </span>
+            <span class="brand-sub">Collections</span>
+          </a>
+          
+          
             <button class="menu-toggle">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
@@ -129,89 +137,94 @@ content="Farhan Rehan Collections, ladies suit shop Mirganj, shalwar suit shop M
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>Premium Shalwar Suit Collection</h1>
-            <p>Discover elegant designs for every occasion - Bridal, Party Wear, Daily Wear & More</p>
-            <a href="#products" class="btn">View Collection</a>
-        </div>
-    </section>
+      <div class="hero-content">
+          <h1>Premium Shalwar Suit Collection</h1>
+          <p>Discover elegant designs for every occasion - Bridal, Party Wear, Daily Wear & More</p>
+          <a href="#products" class="btn">View Collection</a>
+      </div>
+  </section>
 
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Categories Section -->
-        <section id="categories">
-            <h2 class="section-title">Shop by Category</h2>
-            <div class="categories">
-                <div class="category-card active" data-category="all">
-                    <div class="category-icon">👗</div>
-                    <h3>All Products</h3>
-                </div>
-                <div class="category-card" data-category="Bridal">
-                    <div class="category-icon">💍</div>
-                    <h3>Bridal</h3>
-                </div>
-                <div class="category-card" data-category="Party Wear">
-                    <div class="category-icon">✨</div>
-                    <h3>Party Wear</h3>
-                </div>
-                <div class="category-card" data-category="Daily Wear">
-                    <div class="category-icon">👚</div>
-                    <h3>Daily Wear</h3>
-                </div>
-                <div class="category-card" data-category="New Arrivals">
-                    <div class="category-icon">🆕</div>
-                    <h3>New Arrivals</h3>
-                </div>
-            </div>
-        </section>
+  <!-- Main Content -->
+  <main class="container">
+      <!-- Categories Section -->
+      <section id="categories">
+          <h2 class="section-title">Shop by Category</h2>
+          <div class="categories">
+              <div class="category-card active" data-category="all">
+                  <div class="category-icon">👗</div>
+                  <h3>All Products</h3>
+              </div>
+              <div class="category-card" data-category="Bridal">
+                  <div class="category-icon">💍</div>
+                  <h3>Bridal</h3>
+              </div>
+              <div class="category-card" data-category="Party Wear">
+                  <div class="category-icon">✨</div>
+                  <h3>Party Wear</h3>
+              </div>
+              <div class="category-card" data-category="Daily Wear">
+                  <div class="category-icon">👚</div>
+                  <h3>Daily Wear</h3>
+              </div>
+              <div class="category-card" data-category="New Arrivals">
+                  <div class="category-icon">🆕</div>
+                  <h3>New Arrivals</h3>
+              </div>
+          </div>
+      </section>
 
-        <!-- Products Section -->
-        <section id="products">
-            <h2 class="section-title">Our Collection</h2>
-            <div id="loading" class="loading" style="display: none;">
-                Loading products...
-            </div>
-            <div id="empty-state" class="empty-state" style="display: none;"></div>
-            <div id="products-grid" class="products-grid"></div>
-        </section>
-    </main>
+      <!-- Products Section -->
+      <section id="products">
+          <h2 class="section-title">Our Collection</h2>
+          <div id="loading" class="loading" style="display: none;">
+              Loading products...
+          </div>
+          <div id="empty-state" class="empty-state" style="display: none;"></div>
+          <div id="products-grid" class="products-grid"></div>
+      </section>
+  </main>
 
-    <!-- Footer -->
-    <footer>
-        <footer>
-            <div class="footer-content">
-              <div class="footer-section">
-                <h3>Farhan Rehan Collections</h3>
-                <p>
-                  Farhan Rehan Collections is a trusted destination for premium ladies
-                  shalwar suits in Mirganj, Bareilly. We offer bridal wear, party wear,
-                  daily wear and new arrivals with quality fabrics and elegant designs.
-                </p>
-              </div>
-          
-              <div class="footer-section">
-                <h3>Quick Links</h3>
-                <p><a href="index.html">Home</a></p>
-                <p><a href="about.html">About Us</a></p>
-                <p><a href="contact.html">Contact</a></p>
-              </div>
-          
-              <div class="footer-section">
-                <h3>Contact Information</h3>
-                <p>📍 Imam Badha Gali, Choodi Market, Mirganj, Bareilly, Uttar Pradesh – 243504</p>
-                <p>📞 <a href="tel:+917701853043">+91 77018 53043</a></p>
-                <p>
-                  💬 <a href="https://wa.me/917701853043" target="_blank">
-                    Chat on WhatsApp
-                  </a>
-                </p>
-              </div>
-            </div>
-          
-            <div class="footer-bottom">
-              <p>&copy; 2024 Farhan Rehan Collections. All rights reserved.</p>
-            </div>
-          </footer>
+   
+ 
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <div class="footer-section">
+      <h3>Farhan Rehan Collections</h3>
+      <p>
+        Farhan Rehan Collections is a trusted destination for premium ladies
+        shalwar suits in Mirganj, Bareilly. We offer bridal wear, party wear,
+        daily wear, and new arrivals crafted with quality fabrics and elegant designs.
+      </p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h3>Contact Information</h3>
+      <p>📍 Imam Badha Gali, Choodi Market, Mirganj, Bareilly, UP – 243504</p>
+      <p>📞 <a href="tel:+917701853043">+91 77018 53043</a></p>
+      <p>
+        💬 <a href="https://wa.me/917701853043" target="_blank">
+          Chat on WhatsApp
+        </a>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2024 Farhan Rehan Collections. All Rights Reserved.</p>
+  </div>
+</footer>
           
 
     <!-- Sticky WhatsApp Button -->
