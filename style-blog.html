@@ -12,7 +12,18 @@
     /* ===============================
    COLOR COMBINATION PAGE – RESPONSIVE
 ================================ */
+html {
+  height: 100%;
+  overflow: hidden; /* 🔒 disables scroll */
+}
+body {
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at top, #d5dde6, #cfdf44);
 
+  height: 100%;
+  overflow: hidden; /* 🔒 disables scroll */
+}
 /* Section spacing */
 .combo-section {
   margin-top: 3rem;
@@ -87,12 +98,6 @@
     grid-template-columns: 1fr;
   }
 }
-
-
-/* ===============================
-   STYLE PAGE – BLACK HERO
-================================ */
-
 .style-hero {
   background: linear-gradient(135deg, #111, #222);
   color: #fff;
@@ -171,6 +176,30 @@
     display: flex;
   }
 }
+.coming-soon {
+  flex: 1;                 /* takes remaining space only */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.coming-soon h1 {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.coming-soon p {
+  margin-top: 1rem;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  opacity: 0.8;
+}
+.site-footer {
+  margin-top: auto;
+}
 
 
 
@@ -202,196 +231,10 @@
   <h1>Style Guide</h1>
   <p>Color Combinations • Lace • Neck Designs</p>
 </section>
-
-<!-- CONTENT -->
-<main class="container">
-  <section class="page-content">
-
-    <h2>Color Combination Guide</h2>
-    <p>
-      A curated guide to help you choose elegant and balanced color combinations
-      for ladies suits — suitable for bridal, party wear, and daily wear.
-    </p>
-
-    <!-- BRIDAL -->
-    <div class="combo-section">
-      <h3>👰 Bridal Suit Color Combinations</h3>
-      <p>Rich colors with heavy dupatta and lace work for wedding occasions.</p>
-
-      <div class="combo-grid">
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/bridal-1.jpg" alt="Maroon suit with golden dupatta">
-          </div>
-          <p>Maroon suit + Golden dupatta + Heavy lace</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/bridal-2.jpg" alt="Red bridal suit">
-          </div>
-          <p>Red suit + Cream dupatta + Gota patti border</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/bridal-3.jpg" alt="Green bridal suit">
-          </div>
-          <p>Emerald green suit + Contrast dupatta</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- PARTY -->
-    <div class="combo-section">
-      <h3>✨ Party Wear Color Combinations</h3>
-      <p>Stylish colors with light lace and border work.</p>
-
-      <div class="combo-grid">
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/party-1.jpg" alt="Pink party wear suit">
-          </div>
-          <p>Pastel pink suit + Silver dupatta</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/party-2.jpg" alt="Blue party wear suit">
-          </div>
-          <p>Royal blue suit + Off-white dupatta</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/party-3.jpg" alt="Mustard party wear suit">
-          </div>
-          <p>Mustard suit + Bottle green dupatta</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- DAILY -->
-    <div class="combo-section">
-      <h3>🌸 Daily Wear Color Combinations</h3>
-      <p>Simple, comfortable combinations for everyday wear.</p>
-
-      <div class="combo-grid">
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/daily-1.jpg" alt="Cotton daily wear suit">
-          </div>
-          <p>Blue cotton suit + White dupatta</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/daily-2.jpg" alt="Light green daily wear suit">
-          </div>
-          <p>Light green suit + Printed dupatta</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/daily-3.jpg" alt="Peach daily wear suit">
-          </div>
-          <p>Peach suit + Floral dupatta</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- DUPATTA LACE -->
-    <div class="combo-section">
-      <h3>🧣 Dupatta Lace & Border Styles</h3>
-      <p>Finishing touches that enhance the overall look.</p>
-
-      <div class="combo-grid">
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/beel-1.jpg" alt="Heavy lace dupatta">
-          </div>
-          <p>Four-side heavy lace (Bridal)</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/beel-2.jpg" alt="Light lace dupatta">
-          </div>
-          <p>Light lace (Party wear)</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/beel-3.jpg" alt="Simple dupatta border">
-          </div>
-          <p>Simple border (Daily wear)</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- LACE & NECK DESIGNS -->
-    <div class="combo-section">
-      <h3>🧵 Lace & Neck Design Inspirations</h3>
-      <p>
-        These designs are shown for stitching reference.
-        You can show these images to your tailor.
-      </p>
-
-      <div class="combo-grid">
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/lace-1.jpg" alt="Golden lace work">
-          </div>
-          <p>Golden lace – Bridal wear</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/lace-2.jpg" alt="Contrast lace border">
-          </div>
-          <p>Contrast lace – Party wear</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/neck-1.jpg" alt="Designer round neck">
-          </div>
-          <p>Designer round neck</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/neck-2.jpg" alt="Boat neck design">
-          </div>
-          <p>Boat neck – Modern style</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/neck-3.jpg" alt="Heavy bridal neck design">
-          </div>
-          <p>Heavy embroidered neck</p>
-        </div>
-
-        <div class="combo-card">
-          <div class="combo-image">
-            <img src="images/neck-4.jpg" alt="Simple daily wear neck">
-          </div>
-          <p>Simple neck – Daily wear</p>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <p class="page-note">
-    <strong>Note:</strong> All lace, border, and neck designs are shown for
-    reference only. Final stitching depends on fabric and tailor work.
-  </p>
-</main>
-
-
-<!-- FOOTER -->
+  <main class="coming-soon">
+    <h1>COMING SOON</h1>
+    <p>We’re working on something amazing 🚀</p>
+  </main>
 <footer class="site-footer">
   <div class="footer-content">
 
@@ -453,4 +296,4 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 
 </script>
 </body>
-</html>
+</html> 
