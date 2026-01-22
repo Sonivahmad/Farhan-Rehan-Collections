@@ -22,5 +22,9 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-enableIndexedDbPersistence(db).catch(() => {});
+enableIndexedDbPersistence(db, { synchronizeTabs: true })
+  .catch(err => {
+    console.warn("Firestore persistence:", err.code);
+  });
+
 export const storage = getStorage(app);

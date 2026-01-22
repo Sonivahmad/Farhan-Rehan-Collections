@@ -142,6 +142,9 @@
   z-index: 10000;
   cursor: pointer;
 }
+.nav-links {
+  transition: all 0.3s ease;
+}
 
 
 /* Mobile menu */
@@ -428,7 +431,7 @@
   </div>
 </footer>
 
-<script src="js/app.js"></script>
+<script type="module" src="js/app.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
 const menuToggle = document.querySelector('.menu-toggle');
@@ -437,13 +440,13 @@ const navLinks = document.querySelector('.nav-links');
 if (!menuToggle || !navLinks) return;
 
 menuToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
+  navLinks.classList.toggle('active');
 });
 
 // Close menu when clicking a link
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', () => {
-    navLinks.classList.remove('open');
+    navLinks.classList.remove('active');
   });
 });
 });

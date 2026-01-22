@@ -46,7 +46,7 @@ content="Farhan Rehan Collections, ladies suit shop Mirganj, shalwar suit shop M
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-<link rel="manifest" href="/admin/manifest.json">
+<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#2563eb">
 
     <!-- ========================================= -->
@@ -111,6 +111,12 @@ content="Farhan Rehan Collections, ladies suit shop Mirganj, shalwar suit shop M
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
+    <style>
+      .footer-links a{
+        text-decoration: none;
+        background-color: brown;
+      }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -240,11 +246,14 @@ content="Farhan Rehan Collections, ladies suit shop Mirganj, shalwar suit shop M
     <!-- Scripts -->
     <script type="module" src="js/app.js"></script>
     <script>
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("/admin/service-worker.js")
-          .then(() => console.log("Service Worker Registered"))
-          .catch(err => console.error("SW Error", err));
-      }
+   if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(() => console.log("SW registered"))
+      .catch(err => console.error("SW failed", err));
+  });
+}
+
       </script>
       
 </body>

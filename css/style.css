@@ -436,3 +436,9 @@ nav {
 .nav-links {
   z-index: 2000;
 }
+.site-footer a,
+.site-footer a:visited,
+.site-footer a:hover,
+.site-footer a:active {
+  text-decoration: none !important;
+}

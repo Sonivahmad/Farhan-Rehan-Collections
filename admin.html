@@ -25,7 +25,7 @@
   ">
 
   <link rel="stylesheet" href="css/admin.css" />
-  <link rel="manifest" href="/admin/manifest.json">
+  <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#2563eb">
 
 </head>
@@ -199,11 +199,14 @@
 <!-- ================= SCRIPTS ================= -->
 <script type="module" src="js/admin.js"></script>
 <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/admin/service-worker.js")
-      .then(() => console.log("Service Worker Registered"))
-      .catch(err => console.error("SW Error", err));
-  }
+ if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(() => console.log("SW registered"))
+      .catch(err => console.error("SW failed", err));
+  });
+}
+
   </script>
   
 </body>
