@@ -1,21 +1,7 @@
 // ============================================
 // WEBSITE - PRODUCT DISPLAY (REALTIME + FAST)
-// ============================================
-document.addEventListener("DOMContentLoaded", () => {
-  loadProducts("all");
-  setupCategoryFilters();
-  setupHamburgerMenu();
-});
-function setupHamburgerMenu() {
-  const menuToggle = document.querySelector(".menu-toggle");
-  const navLinks = document.querySelector(".nav-links");
 
-  if (!menuToggle || !navLinks) return;
 
-  menuToggle.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-  });
-}
 
 
 import { db } from "./firebase.js";
@@ -39,6 +25,18 @@ let unsubscribeProducts = null;
 // --------------------
 // LOAD PRODUCTS (REALTIME)
 // --------------------
+
+function setupHamburgerMenu() {
+  const menuToggle = document.querySelector(".menu-toggle");
+  const navLinks = document.querySelector(".nav-links");
+
+  if (!menuToggle || !navLinks) return;
+
+  menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+  });
+}
+
 function loadProducts(category = "all") {
   const grid = document.getElementById("products-grid");
   const loading = document.getElementById("loading");
@@ -159,3 +157,9 @@ function setupCategoryFilters() {
     });
   });
 }
+// ============================================
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts("all");
+  setupCategoryFilters();
+  setupHamburgerMenu();
+});

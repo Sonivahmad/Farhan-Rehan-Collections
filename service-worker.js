@@ -1,10 +1,10 @@
 const CACHE_NAME = "admin-panel-v1";
 
 const FILES_TO_CACHE = [
-  "/admin/index.html",
-  "/admin/css/admin.css",
-  "/admin/js/admin.js",
-  "/admin/manifest.json"
+  "/index.html",
+  "/css/admin.css",
+  "/js/admin.js",
+  "/manifest.json"
 ];
 
 self.addEventListener("install", event => {

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Color Combination Guide | Farhan Rehan Collections</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* ===============================
+   COLOR COMBINATION PAGE – RESPONSIVE
+================================ */
+
+/* Section spacing */
+.combo-section {
+  margin-top: 3rem;
+}
+
+/* Grid */
+.combo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* ===============================
+   COMBO GRID – FINAL FIX
+================================ */
+
+/* Card */
+.combo-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.combo-card:hover {
+  transform: translateY(-6px);
+}
+
+/* 🔥 IMAGE SIZE FIX (KEY PART) */
+.combo-image {
+  width: 100%;
+  aspect-ratio: 3 / 4;   /* SAME HEIGHT FOR ALL */
+  overflow: hidden;
+  background: #eee;
+}
+
+.combo-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 🔥 TEXT ALIGN FIX */
+.combo-card p {
+  padding: 0.9rem 1rem;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  text-align: center;
+
+  /* keeps all cards same height */
+  min-height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive spacing */
+@media (max-width: 768px) {
+  .combo-grid {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .combo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ===============================
+   STYLE PAGE – BLACK HERO
+================================ */
+
+.style-hero {
+  background: linear-gradient(135deg, #111, #222);
+  color: #fff;
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.style-hero h1 {
+  font-family: var(--heading-font);
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.style-hero p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .style-hero {
+    padding: 3rem 1rem;
+  }
+
+  .style-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .style-hero p {
+    font-size: 0.95rem;
+  }
+}
+/* ===============================
+   HAMBURGER CLICK FIX
+================================ */
+
+.menu-toggle {
+  position: relative;
+  z-index: 9999;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.menu-toggle {
+  position: relative;
+  z-index: 10000;
+  cursor: pointer;
+}
+
+
+/* Mobile menu */
+@media (max-width: 768px) {
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 320px;
+
+    background: #fff;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 14px;
+
+    display: none;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    z-index: 9998;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+}
+
+
+
+  </style>
+</head>
+<body>
+
+<!-- HEADER (same as other pages) -->
+<header>
+  <nav>
+    <a href="index.html" class="brand-logo">
+      <span class="brand-name">
+        Farhan <span class="amp">&amp;</span> Rehan
+      </span>
+      <span class="brand-sub">Collections</span>
+    </a>
+
+    <button class="menu-toggle">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="style-blog.html">Style Blog</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+<!-- Style Hero -->
+<section class="style-hero">
+  <h1>Style Guide</h1>
+  <p>Color Combinations • Lace • Neck Designs</p>
+</section>
+
+<!-- CONTENT -->
+<main class="container">
+  <section class="page-content">
+
+    <h2>Color Combination Guide</h2>
+    <p>
+      A curated guide to help you choose elegant and balanced color combinations
+      for ladies suits — suitable for bridal, party wear, and daily wear.
+    </p>
+
+    <!-- BRIDAL -->
+    <div class="combo-section">
+      <h3>👰 Bridal Suit Color Combinations</h3>
+      <p>Rich colors with heavy dupatta and lace work for wedding occasions.</p>
+
+      <div class="combo-grid">
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/bridal-1.jpg" alt="Maroon suit with golden dupatta">
+          </div>
+          <p>Maroon suit + Golden dupatta + Heavy lace</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/bridal-2.jpg" alt="Red bridal suit">
+          </div>
+          <p>Red suit + Cream dupatta + Gota patti border</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/bridal-3.jpg" alt="Green bridal suit">
+          </div>
+          <p>Emerald green suit + Contrast dupatta</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTY -->
+    <div class="combo-section">
+      <h3>✨ Party Wear Color Combinations</h3>
+      <p>Stylish colors with light lace and border work.</p>
+
+      <div class="combo-grid">
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/party-1.jpg" alt="Pink party wear suit">
+          </div>
+          <p>Pastel pink suit + Silver dupatta</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/party-2.jpg" alt="Blue party wear suit">
+          </div>
+          <p>Royal blue suit + Off-white dupatta</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/party-3.jpg" alt="Mustard party wear suit">
+          </div>
+          <p>Mustard suit + Bottle green dupatta</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAILY -->
+    <div class="combo-section">
+      <h3>🌸 Daily Wear Color Combinations</h3>
+      <p>Simple, comfortable combinations for everyday wear.</p>
+
+      <div class="combo-grid">
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/daily-1.jpg" alt="Cotton daily wear suit">
+          </div>
+          <p>Blue cotton suit + White dupatta</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/daily-2.jpg" alt="Light green daily wear suit">
+          </div>
+          <p>Light green suit + Printed dupatta</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/daily-3.jpg" alt="Peach daily wear suit">
+          </div>
+          <p>Peach suit + Floral dupatta</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DUPATTA LACE -->
+    <div class="combo-section">
+      <h3>🧣 Dupatta Lace & Border Styles</h3>
+      <p>Finishing touches that enhance the overall look.</p>
+
+      <div class="combo-grid">
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/beel-1.jpg" alt="Heavy lace dupatta">
+          </div>
+          <p>Four-side heavy lace (Bridal)</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/beel-2.jpg" alt="Light lace dupatta">
+          </div>
+          <p>Light lace (Party wear)</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/beel-3.jpg" alt="Simple dupatta border">
+          </div>
+          <p>Simple border (Daily wear)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LACE & NECK DESIGNS -->
+    <div class="combo-section">
+      <h3>🧵 Lace & Neck Design Inspirations</h3>
+      <p>
+        These designs are shown for stitching reference.
+        You can show these images to your tailor.
+      </p>
+
+      <div class="combo-grid">
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/lace-1.jpg" alt="Golden lace work">
+          </div>
+          <p>Golden lace – Bridal wear</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/lace-2.jpg" alt="Contrast lace border">
+          </div>
+          <p>Contrast lace – Party wear</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/neck-1.jpg" alt="Designer round neck">
+          </div>
+          <p>Designer round neck</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/neck-2.jpg" alt="Boat neck design">
+          </div>
+          <p>Boat neck – Modern style</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/neck-3.jpg" alt="Heavy bridal neck design">
+          </div>
+          <p>Heavy embroidered neck</p>
+        </div>
+
+        <div class="combo-card">
+          <div class="combo-image">
+            <img src="images/neck-4.jpg" alt="Simple daily wear neck">
+          </div>
+          <p>Simple neck – Daily wear</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <p class="page-note">
+    <strong>Note:</strong> All lace, border, and neck designs are shown for
+    reference only. Final stitching depends on fabric and tailor work.
+  </p>
+</main>
+
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <div class="footer-section">
+      <h3>Farhan Rehan Collections</h3>
+      <p>
+        Farhan Rehan Collections is a trusted destination for premium ladies
+        shalwar suits in Mirganj, Bareilly. We offer bridal wear, party wear,
+        daily wear, and new arrivals crafted with quality fabrics and elegant designs.
+      </p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h3>Contact Information</h3>
+      <p>📍 Imam Badha Gali, Choodi Market, Mirganj, Bareilly, UP – 243504</p>
+      <p>📞 <a href="tel:+917701853043">+91 77018 53043</a></p>
+      <p>
+        💬 <a href="https://wa.me/917701853043" target="_blank">
+          Chat on WhatsApp
+        </a>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2024 Farhan Rehan Collections. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+if (!menuToggle || !navLinks) return;
+
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+
+// Close menu when clicking a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+  });
+});
+});
+
+</script>
+</body>
+</html>
