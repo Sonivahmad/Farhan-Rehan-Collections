@@ -1,8 +1,4 @@
-/* ============================================
-   ADMIN PANEL STYLES
-   Simple, Mobile-Friendly Design
-   ============================================ */
-
+/* ============================================ ADMIN PANEL STYLES Simple, Mobile-Friendly Design ============================================ */
 * {
   margin: 0;
   padding: 0;
@@ -356,80 +352,377 @@ body {
     width: 100%;
   }
 }
-/* ==============================
-   COOL ADMIN TABLE DESIGN
-   ============================== */
 
-   .products-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  }
-  
-  .products-table th {
-    background: #111827;
-    color: white;
-    padding: 14px;
-    text-align: left;
-  }
-  
-  .products-table td {
-    padding: 14px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .products-table tr:hover {
-    background: #f9fafb;
-  }
-  
-  /* Buttons */
-  .btn-edit {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .btn-delete {
-    background: #dc2626;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .btn-edit:hover,
-  .btn-delete:hover {
-    opacity: 0.85;
-  }
-  /* ==============================
-   DELETE CONFIRM MODAL
-   ============================== */
+/* ============================== COOL ADMIN TABLE DESIGN ============================== */
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
 
+.products-table th {
+  background: #111827;
+  color: white;
+  padding: 14px;
+  text-align: left;
+}
+
+.products-table td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.products-table tr:hover {
+  background: #f9fafb;
+}
+
+/* Buttons */
+.btn-edit {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-delete {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-edit:hover,
+.btn-delete:hover {
+  opacity: 0.85;
+}
+
+/* ============================== DELETE CONFIRM MODAL ============================== */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 1rem;
 }
 
 .modal.hidden {
   display: none;
 }
 
-.modal-box {
-  background: white;
-  padding: 24px;
-  border-radius: 12px;
-  min-width: 300px;
-  text-align: center;
+/* ==============================
+   RESPONSIVE MODAL FIX
+   ============================== */
+
+   .modal-box {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  
+    /* 1. FORCE FLEXIBLE WIDTH */
+    width: 90%;          /* Occupy 90% of screen width... */
+    max-width: 400px;    /* ...but never bigger than 400px */
+    min-width: 0;        /* IMPORTANT: Allow it to shrink to 0 if needed */
+    margin: 0 auto;      /* Center alignment safety */
+    
+    /* 2. HANDLE OVERFLOWING CONTENT */
+    overflow: hidden;    /* Cut off anything that sticks out */
+    word-wrap: break-word; /* Force long text to break lines */
+  }
+  
+  /* 3. TAME THE CHILDREN */
+  /* This ensures no input, image, or button inside can be wider than the modal */
+  .modal-box * {
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  
+  /* Specific fix for inputs inside modal */
+  .modal-box input, 
+  .modal-box select {
+    width: 100%;
+    min-width: 0; /* fixes flexbox input bug */
+  }
+  
+  /* 4. MOBILE TWEAK (Below 650px) */
+  @media (max-width: 650px) {
+    .modal-box {
+      padding: 1rem; /* Less padding on small screens gives content more room */
+      width: 95%;    /* Use almost full width on mobile */
+    }
+  }
+
+  /* ==================================================
+   FIX: MODAL CONTENT RESPONSIVENESS (< 650px)
+   ================================================== */
+
+@media (max-width: 650px) {
+  
+  /* 1. Target any Flex container inside the modal */
+  /* This assumes your product and details are in a flex row */
+  .modal-box > div, 
+  .modal-box .form-row, 
+  .modal-box .product-details-container { 
+    display: flex !important;
+    flex-direction: column !important; /* Stack items vertically */
+    align-items: center !important;    /* Center items */
+    gap: 1rem !important;              /* fixed small gap */
+    text-align: center;                /* Center text */
+  }
+
+  /* 2. Force the Image to Resize */
+  .modal-box img {
+    width: 100px !important;    /* Set a reasonable mobile size */
+    max-width: 100% !important; /* Ensure it never overflows */
+    height: auto !important;    /* Keep aspect ratio */
+    margin: 0 auto;             /* Center the image */
+  }
+
+  /* 3. Force Text/Details to Shrink and Wrap */
+  .modal-box div, 
+  .modal-box p, 
+  .modal-box h3, 
+  .modal-box span {
+    width: 100% !important;       /* Take full width of container */
+    white-space: normal !important; /* Force text to wrap to next line */
+    word-break: break-word;       /* Break long words if necessary */
+  }
+  
+  /* 4. Fix Buttons stacking */
+  .modal-box .action-buttons,
+  .modal-box .form-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .modal-box button, 
+  .modal-box .btn {
+    width: 100% !important; /* Make buttons full width on mobile */
+    margin-bottom: 0.5rem;
+  }
+}
+/* ==================================================
+   FINAL FIX: MODAL INPUTS & MOBILE TABLE
+   ================================================== */
+
+/* 1. FIX THE NAKED INPUTS INSIDE EDIT MODAL */
+/* Your inputs inside the modal didn't have classes, so we target them directly */
+.modal-box input:not([type="checkbox"]), 
+.modal-box select {
+  width: 100%;              /* Force full width */
+  padding: 12px;            /* Comfortable touch area */
+  margin-bottom: 12px;      /* Space between inputs */
+  border: 1px solid #ccc;   /* Clean border */
+  border-radius: 6px;       /* Rounded corners */
+  font-size: 16px;          /* readable font size */
+  display: block;           /* Ensure they sit on their own lines */
+}
+
+/* Fix the file input styling */
+.modal-box input[type="file"] {
+  border: none;
+  padding: 10px 0;
+}
+
+/* 2. MAKE THE TABLE RESPONSIVE (SCROLLABLE) */
+/* This prevents the table from exploding the layout on small screens */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;         /* Allow horizontal scroll if needed */
+  -webkit-overflow-scrolling: touch; /* Smooth scroll on iPhones */
+  margin-bottom: 1rem;
+}
+
+/* 3. SMART MOBILE TABLE (Below 650px) */
+/* Instead of squishing columns, we let the table scroll smoothly */
+/* ==================================================
+   FIX: TRANSFORM TABLE INTO CARDS (MOBILE ONLY)
+   ================================================== */
+
+   @media (max-width: 650px) {
+  
+    /* 1. Reset the Table Structure */
+    .products-table, 
+    .products-table tbody, 
+    .products-table tr, 
+    .products-table td {
+      display: block; 
+      width: 100%;
+    }
+  
+    /* 2. Hide the Header Row (It doesn't make sense in card view) */
+    .products-table thead {
+      display: none; 
+    }
+  
+    /* 3. Style Each Row as a "Card" */
+    .products-table tr {
+      margin-bottom: 1.5rem;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      padding: 1rem;
+    }
+  
+    /* 4. Style Each Cell to look like a list item */
+    .products-table td {
+      display: flex;             /* Use Flexbox to align Label and Value */
+      justify-content: space-between; /* Push Label left, Value right */
+      align-items: center;
+      padding: 0.75rem 0;        /* Space vertically */
+      border-bottom: 1px solid #f3f4f6;
+      text-align: right;         /* Right align the value */
+      font-size: 0.95rem;
+    }
+  
+    .products-table td:last-child {
+      border-bottom: none;       /* Remove border from last item (Actions) */
+      padding-top: 1rem;
+      justify-content: center;   /* Center the buttons */
+      gap: 1rem;
+    }
+  
+    /* 5. Add Labels using CSS (So you don't need to change HTML) */
+    /* This puts the column name on the left side */
+    .products-table td::before {
+      content: attr(data-label); /* Fallback */
+      font-weight: 700;
+      color: #4b5563;
+      text-align: left;
+      margin-right: 1rem;
+    }
+  
+    /* Manually assign labels based on column number */
+    .products-table td:nth-of-type(1)::before { content: "Image"; display: none; } /* Hide label for image */
+    .products-table td:nth-of-type(2)::before { content: "Product Name"; }
+    .products-table td:nth-of-type(3)::before { content: "Category"; }
+    .products-table td:nth-of-type(4)::before { content: "Price"; }
+    .products-table td:nth-of-type(5)::before { content: "Colors"; }
+    .products-table td:nth-of-type(6)::before { content: "Status"; }
+    .products-table td:nth-of-type(7)::before { content: ""; display: none; } /* No label for buttons */
+  
+    /* 6. Special Styling for Specific Cells */
+    
+    /* Make Image Big and Centered at the top */
+    .products-table td:nth-of-type(1) {
+      justify-content: center;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    .products-table img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+  
+    /* Make Product Name Bold */
+    .products-table td:nth-of-type(2) {
+      font-weight: bold;
+      color: #2563eb;
+      font-size: 1.1rem;
+    }
+  }
+  /* ==================================================
+   FINAL FIX: RESPONSIVE CARDS (NO SCROLLING)
+   ================================================== */
+
+@media (max-width: 650px) {
+  
+  /* 1. Reset Table Constraints */
+  .products-table {
+    min-width: 0 !important;   /* Override any previous fixed width */
+    width: 100% !important;    /* Fit exactly to the screen */
+    display: block;            /* Stop behaving like a table */
+  }
+  
+  .products-table tbody, 
+  .products-table tr, 
+  .products-table td {
+    display: block;            /* Make everything stack vertically */
+    width: 100% !important;
+  }
+
+  /* 2. Hide Header */
+  .products-table thead {
+    display: none; 
+  }
+
+  /* 3. Card Styling */
+  .products-table tr {
+    margin-bottom: 1rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: relative;        /* Helps contain content */
+  }
+
+  /* 4. Cell Styling */
+  .products-table td {
+    text-align: right;         /* Data on the right */
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    
+    /* VITAL: Prevent horizontal scrolling */
+    white-space: normal;       /* Allow text to wrap */
+    word-break: break-word;    /* Break long words if needed */
+    overflow-wrap: anywhere;   /* Force wrap for long URLs/names */
+    
+    /* Flex alignment for label vs value */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Remove border from last item */
+  .products-table td:last-child {
+    border-bottom: none;
+    justify-content: center; /* Center buttons */
+    gap: 10px;
+  }
+
+  /* 5. Add Labels (Pseudo-elements) */
+  .products-table td::before {
+    content: attr(data-label); /* Requires JS or static setup, see below for CSS-only override */
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+    flex: 1; /* Allow label to take space */
+  }
+
+  /* MANUAL LABELS (Since your HTML doesn't have data-label attributes) */
+  .products-table td:nth-of-type(2)::before { content: "Name:"; }
+  .products-table td:nth-of-type(3)::before { content: "Category:"; }
+  .products-table td:nth-of-type(4)::before { content: "Price:"; }
+  .products-table td:nth-of-type(5)::before { content: "Colors:"; }
+  .products-table td:nth-of-type(6)::before { content: "Status:"; }
+  
+  /* 6. Image Handling (Top of card) */
+  .products-table td:nth-of-type(1) {
+    justify-content: center;
+    border-bottom: none;
+  }
+  
+  .products-table img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
 }

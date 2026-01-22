@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Farhan Rehan Collections</title>
-    <meta http-equiv="Content-Security-Policy" content="
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Admin Panel - Farhan Rehan Collections</title>
+
+  <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com;
     connect-src 'self'
@@ -20,152 +22,179 @@
       https://firebasestorage.googleapis.com
       https://storage.googleapis.com;
     style-src 'self' 'unsafe-inline';
-    ">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/admin.css">
+  ">
+
+  <link rel="stylesheet" href="css/admin.css" />
 </head>
+
 <body>
-    <!-- Login Screen -->
-    <div id="login-screen" class="login-container">
-        <div class="login-card">
-            <h1>Admin Login</h1>
-            <div id="login-alert"></div>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="admin-email">Email</label>
-                    <input type="email" id="admin-email" autocomplete="username">
-                </div>
-                <div class="form-group">
-                    <label for="admin-password">Password</label>
-                    <input type="password" id="admin-password" autocomplete="current-password">
-                </div>
-                <button type="submit" class="btn">Login</button>
-            </form>
+
+<!-- ================= LOGIN SCREEN ================= -->
+<div id="login-screen" class="login-container">
+  <div class="login-card">
+    <h1>Admin Login</h1>
+
+    <div id="login-alert"></div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="admin-email">Email</label>
+        <input type="email" id="admin-email" autocomplete="username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="admin-password">Password</label>
+        <input type="password" id="admin-password" autocomplete="current-password" required />
+      </div>
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+  </div>
+</div>
+
+<!-- ================= ADMIN DASHBOARD ================= -->
+<div id="admin-dashboard" style="display:none;">
+
+  <!-- Header -->
+  <div class="admin-header">
+    <h1>Admin Panel</h1>
+    <div class="admin-actions">
+      <span id="admin-email-display"></span>
+      <button id="logout-btn" class="btn btn-secondary">Logout</button>
+    </div>
+  </div>
+
+  <div class="admin-container">
+
+    <!-- ================= PRODUCT FORM ================= -->
+    <div class="product-form">
+      <h2 id="form-title">Add New Product</h2>
+
+      <div id="form-alert"></div>
+
+      <form id="product-form">
+        <input type="hidden" id="product-id" />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="product-category">Category *</label>
+            <select id="product-category" required>
+              <option value="">Select Category</option>
+              <option value="Bridal">Bridal</option>
+              <option value="Party Wear">Party Wear</option>
+              <option value="Daily Wear">Daily Wear</option>
+              <option value="New Arrivals">New Arrivals</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="product-name">Product Name *</label>
+            <input type="text" id="product-name" required />
+          </div>
         </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="product-price">Price (₹) *</label>
+            <input type="number" id="product-price" min="0" step="0.01" required />
+          </div>
+
+          <div class="form-group">
+            <label for="product-colors">Available Colors *</label>
+            <input type="text" id="product-colors" placeholder="Red, Blue, Green" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="product-image">Product Image *</label>
+          <input type="file" id="product-image" accept="image/*" required />
+          <div id="image-preview-container"></div>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="product-active" checked />
+          <label for="product-active">Active (Show on website)</label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success" id="submit-btn">Save Product</button>
+          <button type="button" class="btn btn-secondary" id="cancel-btn" style="display:none;" onclick="resetForm()">Cancel</button>
+        </div>
+      </form>
     </div>
 
-    <!-- Admin Dashboard -->
-    <div id="admin-dashboard" style="display: none;">
-        <div class="admin-header">
-            <h1>Admin Panel</h1>
-            <div class="admin-actions">
-                <span id="admin-email-display"></span>
-                <button class="btn btn-secondary" id="logout-btn">Logout</button>
-            </div>
-        </div>
+    <!-- ================= PRODUCTS LIST ================= -->
+    <div class="products-list">
+      <h2>All Products</h2>
 
-        <div class="admin-container">
-            <!-- Add/Edit Product Form -->
-            <div class="product-form">
-                <h2 id="form-title">Add New Product</h2>
-                <div id="form-alert"></div>
-                <form id="product-form">
-                    <input type="hidden" id="product-id">
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="product-category">Category *</label>
-                            <select id="product-category" required>
-                                <option value="">Select Category</option>
-                                <option value="Bridal">Bridal</option>
-                                <option value="Party Wear">Party Wear</option>
-                                <option value="Daily Wear">Daily Wear</option>
-                                <option value="New Arrivals">New Arrivals</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-name">Product Name *</label>
-                            <input type="text" id="product-name" required>
-                        </div>
-                    </div>
+      <div id="products-loading" class="loading" style="display:none;">
+        Loading products...
+      </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="product-price">Price (₹) *</label>
-                            <input type="number" id="product-price" min="0" step="0.01" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-colors">Available Colors (comma separated) *</label>
-                            <input type="text" id="product-colors" placeholder="Red, Blue, Green" required>
-                        </div>
-                    </div>
+      <div id="products-empty" class="empty-state" style="display:none;">
+        No products found. Add your first product above.
+      </div>
 
-                    <div class="form-group">
-                        <label for="product-image">Product Image *</label>
-                        <input type="file" id="product-image" accept="image/*" required>
-                        <div id="image-preview-container"></div>
-                    </div>
+      <!-- TABLE WRAPPER (IMPORTANT FOR MOBILE) -->
+      <div class="table-wrapper">
+        <table class="products-table" id="products-table" style="display:none;">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Colors</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="products-tbody">
+            <!-- JS will inject rows here -->
+          </tbody>
+        </table>
+      </div>
 
-                    <div class="form-group">
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="product-active" checked>
-                            <label for="product-active">Active (Show on website)</label>
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-success" id="submit-btn">Save Product</button>
-                        <button type="button" class="btn btn-secondary" onclick="resetForm()" id="cancel-btn" style="display: none;">Cancel</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Products List -->
-            <div class="products-list">
-                <h2>All Products</h2>
-                <div id="products-loading" class="loading" style="display: none;">Loading products...</div>
-                <div id="products-empty" class="empty-state" style="display: none;">No products found. Add your first product above.</div>
-                <table class="products-table" id="products-table" style="display: none;">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                            <th>Colors</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="products-tbody"></tbody>
-                </table>
-            </div>
-        </div>
     </div>
+  </div>
+</div>
 
-   
-  <!-- Scripts -->
-<script type="module" src="js/admin.js"></script>
-<!-- Delete Confirmation Modal -->
+<!-- ================= DELETE CONFIRM MODAL ================= -->
 <div id="confirm-modal" class="modal hidden">
-    <div class="modal-box">
-      <p id="confirm-text">Are you sure?</p>
-      <div style="margin-top: 16px;">
-        <button id="confirm-yes" class="btn btn-danger">Delete</button>
-        <button id="confirm-no" class="btn btn-secondary">Cancel</button>
-      </div>
+  <div class="modal-box">
+    <p id="confirm-text">Are you sure?</p>
+    <div style="margin-top:16px;">
+      <button id="confirm-yes" class="btn btn-danger">Delete</button>
+      <button id="confirm-no" class="btn btn-secondary">Cancel</button>
     </div>
   </div>
-  <!-- Edit Product Modal -->
+</div>
+
+<!-- ================= EDIT PRODUCT MODAL ================= -->
 <div id="edit-modal" class="modal hidden">
-    <div class="modal-box">
-      <h3 style="margin-bottom:12px">Edit Product</h3>
-  
-      <input id="edit-name" placeholder="Product Name">
-      <input id="edit-price" type="number" placeholder="Price">
-      <input id="edit-colors" placeholder="Colors (comma separated)">
-  
-      <img id="edit-image-preview" style="display:none;width:120px;height:120px;object-fit:cover;margin:10px auto;border-radius:8px">
-  
-      <input type="file" id="edit-image">
-  
-      <div style="margin-top:16px">
-        <button id="edit-save" class="btn btn-success">Update</button>
-        <button id="edit-cancel" class="btn btn-secondary">Cancel</button>
-      </div>
+  <div class="modal-box">
+    <h3 style="margin-bottom:12px;">Edit Product</h3>
+
+    <input id="edit-name" placeholder="Product Name" />
+    <input id="edit-price" type="number" placeholder="Price" />
+    <input id="edit-colors" placeholder="Colors (comma separated)" />
+
+    <img
+      id="edit-image-preview"
+      style="display:none;width:120px;height:120px;object-fit:cover;margin:10px auto;border-radius:8px;"
+    />
+
+    <input type="file" id="edit-image" />
+
+    <div style="margin-top:16px;">
+      <button id="edit-save" class="btn btn-success">Update</button>
+      <button id="edit-cancel" class="btn btn-secondary">Cancel</button>
     </div>
   </div>
-  
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+<script type="module" src="js/admin.js"></script>
+
 </body>
 </html>
