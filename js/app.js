@@ -16,7 +16,7 @@ import {
 // --------------------
 // CONFIG
 // --------------------
-const WHATSAPP_NUMBER = "91XXXXXXXXXX";
+const WHATSAPP_NUMBER = "917701853043";
 
 
 // --------------------
@@ -119,7 +119,12 @@ function displayProduct(product) {
       </p>
       <button
         class="btn btn-whatsapp"
-        onclick="openWhatsApp('${product.name}', ${product.price})">
+        data-name="${product.name || ''}"
+        data-price="${product.price || 0}"
+        data-colors="${(product.colors || []).join(', ')}"
+        data-image="${product.imageUrl || ''}"
+        data-desc="${product.description || ''}"   // ← make sure this field exists in Firestore
+      >
         Order on WhatsApp
       </button>
     </div>
@@ -129,16 +134,40 @@ function displayProduct(product) {
 }
 
 // --------------------
-// WHATSAPP HANDLER
+// WHATSAPP HANDLER – UPDATED VERSION
 // --------------------
-window.openWhatsApp = function (name, price) {
-  const message = encodeURIComponent(
-    `I want ${name}\nPrice: ₹${price}`
-  );
-  window.open(
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,
-    "_blank"
-  );
+window.openWhatsApp = function (buttonElement) {
+  // Read all data from the button
+  const name        = buttonElement.dataset.name        || "Product";
+  const price       = buttonElement.dataset.price       || "0";
+  const colors      = buttonElement.dataset.colors      || "";
+  const imageUrl    = buttonElement.dataset.image       || "";
+  const description = buttonElement.dataset.desc        || "";
+
+  // Build a clean, professional message (use WhatsApp markdown for bold/emoji)
+  let message = `Hello! I'm interested in this product:\n\n`;
+  message += `*${name}*\n`;                    // bold name
+  message += `💰 *Price:* ₹${price}\n`;
+
+  if (colors.trim()) {
+    message += `🎨 *Colors:* ${colors}\n`;
+  }
+
+  if (description.trim()) {
+    message += `\n${description}\n\n`;         // extra line for readability
+  }
+
+  if (imageUrl.trim()) {
+    message += `🖼️ *Product Image:*\n${imageUrl}\n\n`;
+  }
+
+  message += `Please check availability, size options, and help me place the order. Thank you! 🙏`;
+
+  // Encode and open WhatsApp
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+  window.open(whatsappUrl, "_blank");
 };
 
 // --------------------
@@ -163,3 +192,9 @@ document.addEventListener("DOMContentLoaded", () => {
   setupCategoryFilters();
   setupHamburgerMenu();
 });
+document.addEventListener("click", function (e) {
+  if (e.target && e.target.classList.contains("btn-whatsapp")) {
+    openWhatsApp(e.target);          // pass the button element itself
+  }
+});
+

@@ -13,16 +13,16 @@
    COLOR COMBINATION PAGE – RESPONSIVE
 ================================ */
 html {
+  /* Optional: only if you really need it for background */
   height: 100%;
-  overflow: hidden; /* 🔒 disables scroll */
 }
+
 body {
+  min-height: 100dvh;     /* dynamic viewport height – best for mobile */
   display: flex;
   flex-direction: column;
   background: radial-gradient(circle at top, #d5dde6, #cfdf44);
-
-  height: 100%;
-  overflow: hidden; /* 🔒 disables scroll */
+  margin: 0;
 }
 /* Section spacing */
 .combo-section {
@@ -175,6 +175,9 @@ body {
   .nav-links.active {
     display: flex;
   }
+}
+main.coming-soon {
+  flex: 1;                /* already good – grows to fill space */
 }
 .coming-soon {
   flex: 1;                 /* takes remaining space only */
