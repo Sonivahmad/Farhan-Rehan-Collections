@@ -1,4 +1,4 @@
-# Farhan Rehan Collections - Digital Showroom
+# Farhan Rehan Collections - Digital Fashion Showroom
 
 A professional digital showroom website for a local Indian clothing shop with WhatsApp ordering integration.
 
